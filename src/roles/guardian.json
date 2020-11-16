@@ -1,0 +1,393 @@
+{
+  "the-ætherist": {
+    "id": 1,
+    "name": "The Ætherist",
+    "name_anchor": "the-Ætherist",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-Ætherist",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Undercover — Unveil this identity only if another player controls seven or more lands.|Unveil {4}|When The Ætherist is unveiled, counter target spell. At the beginning of target player’s next main phase, they gain life and add an amount of {C} equal to that spell’s converted mana cost.",
+    "flavor": "",
+    "artist": "Roggles (Rogie Custodio) @ DeviantArt",
+    "rulings": [
+      "The Ætherist’s unveiling triggered ability can target a spell that can’t be countered. When the ability resolves, that spell won’t be countered, but the targeted player will still gain life and add mana to their mana pool at the beginning of their next main phase.",
+      "If the target spell is an illegal target when The Ætherist’s unveiling triggered ability tries to resolve, it will be countered and none of its effects will happen. The targeted player won’t get any life nor mana."
+    ]
+  },
+
+  "the-augur": {
+    "id": 2,
+    "name": "The Augur",
+    "name_anchor": "the-augur",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-augur",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Undercover — Unveil this identity only if another player has three or fewer cards in hand.|Unveil {X}{2}|When The Augur is unveiled, shuffle your library, scry X, then reveal the top card of your library. You may cast that card without paying its mana cost.",
+    "flavor": "",
+    "artist": "lorlandchain (Chen Wei) @ DeviantArt",
+    "rulings": [
+      "The X in the unveiling triggered ability has the same value as the X paid in the Unveil ability. This is pretty easy to derive since there is no other source of X.",
+      "If X is 0, you won’t scry at all. Any abilities that trigger whenever you scry won’t trigger.",
+      "Once The Augur’s unveiling triggered ability begins to resolve, no player may take other actions until it’s done. Notably, opponents can’t try to change your library after you scry but before you reveal the top card of your library.",
+      "If the revealed card in your library has {X} in its mana cost, you must choose 0 as the value of X when casting it without paying its mana cost.",
+      "The revealed card cast with The Augur’s unveiling triggered ability is cast from your library.",
+      "If you cast the revealed card, you do so as part of the resolution of the triggered ability. You can’t wait to cast it later in the turn. Timing permissions based on the card’s type are ignored, but other restrictions (such as \"Cast [this card] only during combat\") are not.",
+      "If you cast a card \"without paying its mana cost,\" you can’t pay any alternative costs. You can, however, pay additional costs. If the card has any mandatory additional costs, such as that of Costly Plunder, those must be paid to cast the card.",
+      "The converted mana cost of a split card is based on the combined mana cost of its two halves."
+    ]
+  },
+
+  "the-bodyguard": {
+    "id": 3,
+    "name": "The Bodyguard",
+    "name_anchor": "the-bodyguard",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-bodyguard",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil {5} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Bodyguard is unveiled, until your next turn, prevent all damage that would be dealt to target player and each creature and planeswalker they control.",
+    "flavor": "",
+    "artist": "Hokunin (Prokopii Osipov) @ DeviantArt",
+    "rulings": [
+      "The replacement effect stops as your next untap step begins, before you untap your permanents. If this causes any state-based actions to become applicable, or if any abilities trigger, those are handled during your upkeep."
+    ]
+  },
+
+  "the-cathar": {
+    "id": 4,
+    "name": "The Cathar",
+    "name_anchor": "the-cathar",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-cathar",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil—{6}, Pay 6 life. (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Cathar is unveiled, exile up to three target nonland permanents until you lose the game. (Those permanents return under their owners’ control.)",
+    "flavor": "",
+    "artist": "akizhao @ DeviantArt",
+    "rulings": [
+      "You can’t pay the unveil cost if your life total is less than 6.",
+      "If The Cathar’s controller loses the game before the triggered ability resolves, the targeted permanents won't be exiled.",
+      "Auras attached to the exiled permanents will be put into their owners' graveyards. Any Equipment will become unattached and remain on the battlefield. Any counters on the exiled permanent will cease to exist. When the card returns to the battlefield, it will be a new object with no connection to the card that was exiled.",
+      "If a token is exiled this way, it will cease to exist and won't return to the battlefield."
+    ]
+  },
+
+  "the-cryomancer": {
+    "id": 5,
+    "name": "The Cryomancer",
+    "name_anchor": "the-cryomancer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-cryomancer",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Undercover — Unveil this identity only if another player controls ten or more permanents.|Unveil {X}{2}|When The Cryomancer is unveiled, tap X target permanents. If it’s your turn, those permanents don’t untap during their controller’s next untap step.",
+    "flavor": "",
+    "artist": "OPOA @ Pinterest",
+    "rulings": [
+      "The X in the unveiling triggered ability has the same value as the X paid in the Unveil ability. This is pretty easy to derive since there is no other source of X.",
+      "If a permanent affected by The Cryomancer changes controllers before its old controller’s next untap step, The Cryomancer will prevent it from becoming untapped during its new controller’s next untap step."
+    ]
+  },
+
+  "the-flickering mage": {
+    "id": 6,
+    "name": "The Flickering Mage",
+    "name_anchor": "the-flickering-mage",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-flickering-mage",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil {6} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Flickering Mage is unveiled, exile up to five target nonland permanents. Return those cards to the battlefield tapped under their owner’s control at the beginning of the next end step.",
+    "flavor": "",
+    "artist": "Zolaida (Lisa Buijteweg) @ DeviantArt",
+    "rulings": [
+      "All cards exiled with The Flickering Mage will return to the battlefield, even if they’re no longer creatures.",
+      "If a creature token is exiled, it ceases to exist. It won’t be returned to the battlefield.",
+      "If a double-faced card is exiled, it will return with its front face up.",
+      "When the creatures are exiled, any Auras or Equipment on them fall off and any counters on them are removed. When they return to the battlefield, they come back tapped and are treated as new versions of the cards.",
+      "Normally, the creatures will return to the battlefield at the end of the same turn they were exiled. But if they’re exiled during the End step, it’s too late to return them this turn. They have to wait to return to the battlefield until the next End step."
+    ]
+  },
+
+  "the-golem": {
+    "id": 7,
+    "name": "The Golem",
+    "name_anchor": "the-golem",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-golem",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil {7} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Golem is unveiled, target Leader player loses 7 life and you gain 7 life.|Leader players have hexproof and can’t be attacked as long as you have 7 or more life.",
+    "flavor": "",
+    "artist": "Michael Phillippi @ DeviantArt",
+    "rulings": [
+      "The Golem’s last ability affects the game only while the identity card is face up."
+    ]
+  },
+
+  "the-great martyr": {
+    "id": 8,
+    "name": "The Great Martyr",
+    "name_anchor": "the-great-martyr",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-great-martyr",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "M",
+    "text": "Undercover — Unveil this identity only if another identity card has been unveiled or if a Leader player has been attacked by another player this game.|Unveil {1}|When The Great Martyr is unveiled, until end of turn, if a source, spell, or ability an opponent controls would cause a Leader player to lose life, you lose that much life instead. The same is true for discarding cards and sacrificing permanents. (Damage causes loss of life.)",
+    "flavor": "",
+    "artist": "Jason Engle @ DeviantArt",
+    "rulings": ["No extra rules information."]
+  },
+
+  "the-hieromancer": {
+    "id": 9,
+    "name": "The Hieromancer",
+    "name_anchor": "the-hieromancer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-hieromancer",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil {12} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|This identity’s unveil cost costs {1} less for each creature controlled by other players.|When The Hieromancer is unveiled, tap all creatures. They don’t untap during their controller’s next untap step.",
+    "flavor": "",
+    "artist": "Kekai @ CGHUB",
+    "rulings": [
+      "The second part of The Hieromancer’s effect affects all creatures as it resolves, not just the ones that The Hieromancer actually caused to become tapped.",
+      "If a permanent affected by The Hieromancer changes controllers before its old controller’s next untap step, The Hieromancer will prevent it from becoming untapped during its new controller’s next untap step."
+    ]
+  },
+
+  "the-immortal": {
+    "id": 10,
+    "name": "The Immortal",
+    "name_anchor": "the-immortal",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-immortal",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Undercover — Unveil this identity only if a player’s life total is lesser or equal to half their starting life total, or if a graveyard has seven or more cards in it.|Unveil {4}|When The Immortal is unveiled, up to one target player gains 15 life and up to one target player shuffles their graveyard into their library.",
+    "flavor": "",
+    "artist": "malisaa @ DeviantArt",
+    "rulings": [
+      "If you choose both modes, you may target a single player twice."
+    ]
+  },
+
+  "the-marshal": {
+    "id": 11,
+    "name": "The Marshal",
+    "name_anchor": "the-marshal",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-marshal",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Unveil {X}{6}|When The Marshal is unveiled, choose a color and a creature type. Target player creates X plus four 1/1 creature tokens of the chosen color and type. If X is 3 or more, destroy all other creatures.",
+    "flavor": "",
+    "artist": "Diego Gisbert Llorens @ DeviantArt",
+    "rulings": [
+      "The X in the unveiling triggered ability has the same value as the X paid in the Unveil ability. This is pretty easy to derive since there is no other source of X.",
+      "The Marshal’s unveiling triggered ability checks the number you chose for X, not the amount of mana you actually spent.",
+      "You do what the spell says in order. If X is 3 or more, you’ll put the creature tokens onto the battlefield, then you’ll destroy all other creatures.",
+      "No one can cast spells or activate abilities between the time the creature tokens are put onto the battlefield and the time all other creatures are destroyed. For example, you can’t sacrifice one of those tokens to regenerate a Dimir House Guard."
+    ]
+  },
+
+  "the-oracle": {
+    "id": 12,
+    "name": "The Oracle",
+    "name_anchor": "the-oracle",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-oracle",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "M",
+    "text": "Undercover — Unveil this identity only if a Leader player is the target of a spell or ability another player controls, or if they are attacked by a player other than you.|Unveil {2}|When The Oracle is unveiled, until end of turn, Leader players have protection from everything and their life totals can’t change.",
+    "flavor": "",
+    "artist": "GENZOMAN (Gonzalo Ordóñez Arias) @ DeviantArt",
+    "rulings": [
+      "---------- The following rulings focus on the \"protection from\" keyword ----------",
+      "If a player has protection from everything, it means three things: 1) All damage that would be dealt to that player is prevented. 2) Auras can’t be attached to that player. 3) That player can’t be the target of spells or abilities.",
+      "Nothing other than the specified events are prevented or illegal. An effect that doesn’t target you could still cause you to discard cards, for example. Creatures can still attack you while you have protection from everything, although combat damage that they would deal to you will be prevented.",
+      "Gaining protection from everything causes a spell or ability on the stack to have an illegal target if it targets you. As a spell or ability tries to resolve, if all its targets are illegal, that spell or ability is countered and none of its effects happen, including effects unrelated to the target. If at least one target is still legal, the spell or ability does as much as it can to the remaining legal targets, and its other effects still happen.",
+      "---------- The following rulings focus on what it means if your life total can’t change ----------",
+      "Spells and abilities that would normally cause you to gain or lose life still resolve while your life total can’t change, but the life-gain or life-loss part simply has no effect.",
+      "Protection from everything will usually prevent damage if it would be dealt to you, but some damage can’t be prevented. In this case, because your life total also can’t change, that damage has any other effects that it may have aside from causing you to lose that much life (such as effects from lifelink or infect) and triggers and effects can see that damage was dealt even though your life total didn’t change.",
+      "You can’t pay a cost that includes the payment of any amount of life other than 0 life.",
+      "If a cost includes causing you to gain life (like the alternative cost of an opponent’s Invigorate does), that cost can’t be paid.",
+      "Effects that would replace having you gain life with some other event won’t be able to be applied because it’s impossible for you to gain life. The same is true for effects that would replace having you lose life with some other event.",
+      "Effects that replace an event with having you gain life (like Words of Worship’s effect does) or having you lose life will apply and end up replacing the event with nothing.",
+      "If an effect would set your life total to a certain number that’s different than your current life total, that part of the effect won’t do anything.",
+      "If an effect would cause you to exchange life totals with another player, the exchange won’t happen. Neither player’s life total changes."
+    ]
+  },
+
+  "the-spellsnatcher": {
+    "id": 13,
+    "name": "The Spellsnatcher",
+    "name_anchor": "the-spellsnatcher",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-spellsnatcher",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "U",
+    "text": "Unveil {6} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Spellsnatcher is unveiled, target player gains control of target spell. They may choose new targets for it. (If that spell becomes a permanent, it enters the battlefield under that player’s control.)",
+    "flavor": "",
+    "artist": "bpsola (Bryan Marvin P. Sola) @ DeviantArt",
+    "rulings": [
+      "The Spellsnatcher’s unveiling triggered ability can target any spell, even one without targets.",
+      "If you gain control of an instant or sorcery spell, it will be put into its owner’s graveyard as it resolves.",
+      "You may change any or none of the spell’s targets. If you change a target, you must choose a legal target for the spell. If you can’t, you must leave the target unchanged (even if the current target is illegal). Notably, if you were originally chosen as a \"target opponent\" for a spell you gain control with The Spellsnatcher, you are now an illegal target as you aren’t your own opponent.",
+      "Combat damage dealt by a commander is tracked without regard to who controlled the commander at the time it dealt damage. For example, say a commander deals 10 combat damage to a player, leaves the battlefield, is recast, and you gain control of it with The Spellsnatcher. If it deals another 11 combat damage to that same player, they will lose the game.",
+      "If you gain control of a commander spell, the commander’s owner chooses whether to put it in the command zone if it later leaves the battlefield."
+    ]
+  },
+
+  "the-summoner": {
+    "id": 14,
+    "name": "The Summoner",
+    "name_anchor": "the-summoner",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-summoner",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Undercover — Unveil this identity only if you or a Leader player have been attacked by another player this game.|Unveil {X}{Y}{1}|When The Summoner is unveiled, target player creates X Y/Y green Elemental Beast creature tokens.",
+    "flavor": "",
+    "artist": "Kekai @ CGHUB",
+    "rulings": [
+      "The X and Y in the unveiling triggered ability have the same value as the X and Y paid in the Unveil ability. This is pretty easy to derive since there is no other sources of X and Y.",
+      "The term \"another\" in the Undercover restriction means not you nor a Leader player."
+    ]
+  },
+
+  "the-supplier": {
+    "id": 15,
+    "name": "The Supplier",
+    "name_anchor": "the-supplier",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-supplier",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "R",
+    "text": "Unveil {6}|When The Supplier is unveiled, choose one or both —|• Target player searches their library and/or graveyard for a card and put it into their hand. If they searched their library this way, they shuffle it.|• Target player returns a face-up exiled card they own to their hand.",
+    "flavor": "",
+    "artist": "Kieran Yanner",
+    "rulings": [
+      "The two targets may be the same player or they may be different players.",
+      "If The Supplier affects a suspended card, the card loses its time counters and is no longer suspended. (This doesn’t trigger the last ability of suspend.)",
+      "If The Supplier affects a card that’s haunting a creature, the haunt effect ends."
+    ]
+  },
+
+  "the-warlock": {
+    "id": 16,
+    "name": "The Warlock",
+    "name_anchor": "the-warlock",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-warlock",
+    "cost": "",
+    "cmc": 0,
+    "color": "blue",
+    "type": "Identity — Guardian",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Guardian"
+    },
+    "rarity": "M",
+    "text": "Undercover — Unveil this identity only if another identity card has been unveiled this game.|Unveil {3}|When The Warlock is unveiled, end the phase if it isn’t the ending phase. (Exile all spells and abilities on the stack. Remove all creatures from combat. Then, the active player begins their next phase.)",
+    "flavor": "",
+    "artist": "Hokunin (Prokopii Osipov) @ DeviantArt",
+    "rulings": [
+      "Ending the phase this way means the following things happen in order: 1) All spells and abilities on the stack are exiled. This includes spells and abilities that can’t be countered. 2) If there are any attacking and blocking creatures, they’re removed from combat. 3) State-based actions are checked. No player gets priority, and no triggered abilities are put onto the stack. 4) The current phase and/or step ends. The game skips straight to the next phase.",
+      "If any triggered abilities do trigger during this process, they’re put onto the stack at the beginning of the next step or phase.",
+      "Though other spells and abilities that are exiled won’t get a chance to resolve, they don’t count as being countered.",
+      "The phases of a turn are, in order, beginning, precombat main, combat, postcombat main, and ending."
+    ]
+  }
+}
