@@ -13,7 +13,10 @@ function createEmbed(ability, options) {
     embed: {
       title:
         (name ? `${name} is` : 'You are') +
-        ` a ${ability.types.subtype}: ${ability.name}!`,
+        { Leader: ' the ', Assassin: ' an ', Traitor: ' a ', Guardian: ' a ' }[
+          ability.types.subtype
+        ] +
+        `${ability.types.subtype}: ${ability.name}!`,
       description: `[View on mtgtreachery](${ability.uri})`,
       image: {
         url: ability.image,
@@ -28,7 +31,7 @@ function createEmbed(ability, options) {
   };
 }
 
-function* assign(users) {
+function distribution(players) {
   if (users.length < 4 || users.length > 8) {
     throw 'Treachery requires 4-8 players';
   }
@@ -40,20 +43,47 @@ function* assign(users) {
     guardian: 0,
   };
 
-  if (users.length >= 8) {
+  if (players >= 8) {
     counts.traitor = 2;
   }
 
-  if (users.length >= 6) {
+  if (players >= 6) {
     counts.assassin = 3;
   }
 
-  if (users.length >= 7) {
+  if (players >= 7) {
     counts.guardian = 2;
-  } else if (users.length >= 5) {
+  } else if (players >= 5) {
     counts.guardian = 1;
   }
 
+  return counts;
+}
+
+function distributionText(players) {
+  const counts = distribution(players);
+
+  let text = '1 leader, ';
+
+  if (counts.traitor == 1) {
+    text += '1 traitor, ';
+  } else {
+    text += `${counts.traitor} traitors, `;
+  }
+
+  text += `${counts.assassin} assassins, and `;
+
+  if (counts.guardian == 1) {
+    text += '1 guardian, ';
+  } else {
+    text += `${counts.guardian} guardians, `;
+  }
+
+  return text;
+}
+
+function* assign(users) {
+  const counts = distribution(users.length);
   const pool = [
     ...pickRandom(Object.values(LeaderAbilities), { count: counts.leader }),
     ...pickRandom(Object.values(TraitorAbilities), { count: counts.traitor }),
@@ -75,5 +105,7 @@ function* assign(users) {
 
 module.exports = {
   createEmbed,
+  distribution,
+  distributionText,
   assign,
 };
