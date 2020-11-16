@@ -6,10 +6,14 @@ const GuardianAbilities = require('../data/GuardianAbilities.json');
 const LeaderAbilities = require('../data/LeaderAbilities.json');
 const TraitorAbilities = require('../data/TraitorAbilities.json');
 
-function createEmbed(ability) {
+function createEmbed(ability, options) {
+  const { name } = options || {};
+
   return {
     embed: {
-      title: `You are a ${ability.types.subtype}: ${ability.name}!`,
+      title:
+        (name ? `${name} is` : 'You are') +
+        ` a ${ability.types.subtype}: ${ability.name}!`,
       description: `[View on mtgtreachery](${ability.uri})`,
       image: {
         url: ability.image,

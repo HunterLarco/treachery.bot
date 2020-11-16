@@ -12,6 +12,8 @@ const Emojis = {
   Stop: '🛑',
 };
 
+const playerAssignments = new Map();
+
 function randomRole(roles) {
   const keys = Object.keys(roles);
   const key = keys[Math.floor(Math.random()) * keys.length];
@@ -125,6 +127,7 @@ const commands = {
 
               try {
                 for (const { user, ability } of abilityHelpers.assign(users)) {
+                  playerAssignments.set(user.id, ability);
                   user.send(abilityHelpers.createEmbed(ability));
                 }
               } catch (error) {
@@ -178,6 +181,46 @@ const commands = {
           console.log(`Collected ${collected.size} items`);
         });
       });
+  },
+
+  whoami(message) {
+    if (!playerAssignments.has(message.author.id)) {
+      message.channel.send({
+        embed: {
+          title: 'Who Are You?',
+          description: `${message.author.tag}, you are not currently in a game.`,
+        },
+      });
+      return;
+    }
+
+    message.channel.send({
+      embed: {
+        title: 'Who Are You?',
+        description: `${message.author.tag}, you have been privately messaged.`,
+      },
+    });
+    message.author.send(
+      abilityHelpers.createEmbed(playerAssignments.get(message.author.id))
+    );
+  },
+
+  reveal(message) {
+    if (!playerAssignments.has(message.author.id)) {
+      message.channel.send({
+        embed: {
+          title: 'Nothing To Reveal',
+          description: `${message.author.tag}, you are not currently in a game.`,
+        },
+      });
+      return;
+    }
+
+    message.channel.send(
+      abilityHelpers.createEmbed(playerAssignments.get(message.author.id), {
+        name: message.author.tag,
+      })
+    );
   },
 };
 
