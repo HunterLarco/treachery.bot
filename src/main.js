@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 const config = require('./config.private.json');
-const LeaderRoles = require('./roles/leader.json');
+const LeaderAbilities = require('./data/LeaderAbilities.json');
 
 const client = new Discord.Client();
 
@@ -116,8 +116,10 @@ const commands = {
               players.add(user.id);
               break;
             case Emojis.Rocket:
-              console.log(client.users, players)
-              const users = await Promise.all(Array.from(players).map(id => client.users.fetch(id)))
+              console.log(client.users, players);
+              const users = await Promise.all(
+                Array.from(players).map((id) => client.users.fetch(id))
+              );
 
               message.channel.send({
                 embed: {
@@ -128,14 +130,14 @@ const commands = {
                   fields: [
                     {
                       name: 'Players',
-                      value: '• ' + users.map(user => user.tag).join('\n• '),
-                    }
+                      value: '• ' + users.map((user) => user.tag).join('\n• '),
+                    },
                   ],
                 },
               });
 
               for (const user of users) {
-                user.send(JSON.stringify(randomRole(LeaderRoles), null, 2))
+                user.send(JSON.stringify(randomRole(LeaderAbilities), null, 2));
               }
               collector.stop();
               break;
