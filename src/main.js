@@ -117,16 +117,33 @@ const commands = {
               players.add(user.id);
               break;
             case Emojis.Rocket:
+              collector.stop();
+
               const users = await Promise.all(
                 Array.from(players).map((id) => client.users.fetch(id))
               );
+
+              try {
+                for (const { user, ability } of abilityHelpers.assign(users)) {
+                  user.send(abilityHelpers.createEmbed(ability));
+                }
+              } catch (error) {
+                console.error(error);
+                message.channel.send({
+                  embed: {
+                    title: 'Treachery Failed To Start',
+                    description: error,
+                  },
+                });
+                return;
+              }
 
               message.channel.send({
                 embed: {
                   title: 'Treachery Game Starting!',
                   description:
                     `The game has been started by ${user.tag}. All of the ` +
-                    'below players will be privately messaged a role.',
+                    'below players have been privately messaged a role.',
                   fields: [
                     {
                       name: 'Players',
@@ -136,16 +153,6 @@ const commands = {
                 },
               });
 
-              try {
-                for (const { user, ability } of abilityHelpers.assign(users)) {
-                  user.send(abilityHelpers.createEmbed(ability));
-                }
-              } catch (error) {
-                console.error(error);
-                message.channel.send(error);
-              }
-
-              collector.stop();
               break;
             case Emojis.Stop:
               message.channel.send({
