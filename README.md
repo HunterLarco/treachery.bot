@@ -6,6 +6,10 @@
 
 ![](https://github.com/hunterlarco/treachery.bot/workflows/prettier/badge.svg)
 
+## Using The Bot
+
+[Add the bot to your discord server][bot-install] and then use `~help`.
+
 ## Contributing
 
 ### Install project dependencies
@@ -48,3 +52,5 @@ npm run format-code
 
 Please submit all contributions via pull requests where your branch matches the
 pattern `<username>/<branch-name>`.
+
+[bot-install]: https://discord.com/oauth2/authorize?client_id=777746848123191296&scope=bot
