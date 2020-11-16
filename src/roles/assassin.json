@@ -1,0 +1,389 @@
+{
+  "the-ambitious-queen": {
+    "id": 28,
+    "name": "The Ambitious Queen",
+    "name_anchor": "the-ambitious-queen",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-ambitious-queen",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil—Pay 3 life, Exile a card from your hand.|When The Ambitious Queen is unveiled, counter target spell or ability from a nonidentity source. (Mana abilities can’t be targeted.)",
+    "flavor": "",
+    "artist": "88grzes (Grzegorz Rutkowski) @ DeviantArt",
+    "rulings": [
+      "You can’t pay the unveil cost if you have no cards in hand or if your life total is less than 4.",
+      "See <a href=\"/rules/oracle/?card=the-void-tyrant\">The Void Tyrant</a>."
+    ]
+  },
+
+  "the-beastmaster": {
+    "id": 29,
+    "name": "The Beastmaster",
+    "name_anchor": "the-beastmaster",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-beastmaster",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {6} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Beastmaster is unveiled, up to three target players each create three 3/3 green Beast creature tokens.",
+    "flavor": "",
+    "artist": "Smolin (Nick Avallone) @ DeviantArt",
+    "rulings": ["No extra rules information."]
+  },
+
+  "the-bio-engineer": {
+    "id": 30,
+    "name": "The Bio-Engineer",
+    "name_anchor": "the-bio-engineer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-bio-engineer",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "M",
+    "text": "Unveil—Sacrifice a nonland permanent.|When The Bio-Engineer is unveiled, you get {a}{a}{a}{a}{a}{a} (Six nut counters).|{2}, Pay {a}: Put a +1/+1 counter on target creature. That creature becomes an artifact in addition to its other types.|{3}, Pay {a}{a}: Gain control of target artifact.",
+    "flavor": "",
+    "artist": "Ushihachi",
+    "rulings": [
+      "The Bio-Engineer’s third and fourth abilities can be activated only while the identity card is face up.",
+      "It’s the ability, not the counter that makes the creature an artifact. The creature remains an artifact even if the +1/+1 counter is removed.",
+      "The effect of The Bio-Engineer’s fourth ability last indefinitely. You won’t lose control of the permanents if you lose control of The Bio-Engineer or if it’s turned face down.",
+      "If you gain control of a permanent, and you leave the game, the control-changing effect will end. Unless there’s another control-changing effect affecting that permanent, it will return to its owner’s control.",
+      "If you gain control of a permanent another player owns, and that player leaves the game, the permanent will also leave the game.",
+      "{a} is the nut symbol. It represents one nut counter.",
+      "Nut counters are a kind of counter that a player may have. They’re not associated with specific permanents. (Other kinds of counters that players may have include poison, energy and experience.)",
+      "Keep careful track of how many nut counters the Leader player has. You may do so by keeping a running count on paper, by using a die on that card, or by any other clear and mutually agreeable method.",
+      "If an effect says you get one or more {a}, you get that many nut counters. To pay one or more {a}, you lose that many nut counters. Any effects that interact with counters a player gets, has, or loses can interact with nut counters.",
+      "Nut counters aren’t mana. They don’t go away as steps, phases, and turns end, and effects that add mana \"of any type\" to your mana pool can’t give you nut counters.",
+      "You can’t pay more nut counters than you have."
+    ]
+  },
+
+  "the-corpse-snatcher": {
+    "id": 31,
+    "name": "The Corpse Snatcher",
+    "name_anchor": "the-corpse-snatcher",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-corpse-snatcher",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil {4}|When The Corpse Snatcher is unveiled, each player puts the top two cards of their library into their graveyard. When each player does, put a creature card from a graveyard onto the battlefield under target player’s control. That creature is a black Zombie in addition to its other colors and types.",
+    "flavor": "",
+    "artist": "rk post",
+    "rulings": [
+      "The Corpse Snatcher features a reflexive trigger. When it’s unveiled, its triggered ability goes on the stack without a target. When that ability finished resolving, a second ability triggers and you pick a target player that will get a reanimated creature. Players may cast spells and activate abilities before they are milled and then again after they are milled but before a creature is reanimated.",
+      "The Corpse Snatcher’s reanimating triggered ability doesn’t target a creature card. You choose which card you’re putting onto the battlefield as it resolves. You can choose any creature card in a graveyard at that time, including one just put into a graveyard by The Corpse Snatcher. If there are no creature cards in graveyards at that time, The Corpse Snatcher simply finishes resolving."
+    ]
+  },
+
+  "the-demon": {
+    "id": 32,
+    "name": "The Demon",
+    "name_anchor": "the-demon",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-demon",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {4} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Demon is unveiled, search your library for a card, put that card into your hand, then shuffle your library.",
+    "flavor": "",
+    "artist": "KipcaHT @ DeviantArt",
+    "rulings": ["No extra rules information."]
+  },
+
+  "the-depths-caller": {
+    "id": 33,
+    "name": "The Depths Caller",
+    "name_anchor": "the-depths-caller",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-depths-caller",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "M",
+    "text": "Unveil {X}{3}|When The Depths Caller is unveiled, choose a permanent type. Search your library for a card of the chosen type with converted mana cost no more than X plus the number of permanents of that type you control, put it onto the battlefield, then shuffle your library.",
+    "flavor": "",
+    "artist": "Gerald Brom",
+    "rulings": [
+      "The X in the unveiling triggered ability has the same value as the X paid in the Unveil ability. This is pretty easy to derive since there is no other source of X.",
+      "Once The Depths Caller’s unveiling triggered ability begins to resolve, no players may take other actions until it’s done. Notably, players can’t try to destroy your permanents after you’ve chosen a type."
+    ]
+  },
+
+  "the-madwoman": {
+    "id": 34,
+    "name": "The Madwoman",
+    "name_anchor": "the-madwoman",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-madwoman",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil {5}|When The Madwoman is unveiled, tap up to two target creatures. Each of those creatures deals damage equal to its power to its controller. Prevent all combat damage that would be dealt to and dealt by those creatures this turn.",
+    "flavor": "",
+    "artist": "Anna Ignatieva",
+    "rulings": [
+      "Tapping a creature is part of the effect, therefore you can target a tapped creature."
+    ]
+  },
+
+  "the-necromancer": {
+    "id": 35,
+    "name": "The Necromancer",
+    "name_anchor": "the-necromancer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-necromancer",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil {7}|When The Necromancer is unveiled, if it’s your turn, for each player, you may put up to one target creature card from that player’s graveyard onto the battlefield under your control.",
+    "flavor": "",
+    "artist": "Athayar (Nicolas Vallée) @ DeviantArt",
+    "rulings": [
+      "You can choose a number of targets up to the number of players in the game, one target per player (including you).",
+      "The creature cards enter the battlefield simultaneously."
+    ]
+  },
+
+  "the-pyromancer": {
+    "id": 36,
+    "name": "The Pyromancer",
+    "name_anchor": "the-pyromancer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-pyromancer",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {7} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Pyromancer is unveiled, it deals 6 damage to target player and each creature and planeswalker they control. If a creature is dealt damage this way, it loses indestructible until end of turn.",
+    "flavor": "",
+    "artist": "Andantonius (Jon Neimeister) @ DeviantArt",
+    "rulings": [
+      "If The Pyromancer doesn’t deal damage to a creature (perhaps because that damage was prevented), neither additional effect will apply. It won’t lose indestructible.",
+      "Creatures with indestructible that enter the battlefield after The Pyromancer’s unveiling triggered ability resolves will still have indestructible.",
+      "Once The Pyromancer’s unveiling triggered ability begins to resolve, no player may take actions until it’s done. Notably, players can’t try to give a creature indestructible again to save it from the damage.",
+      "An identity card has no color."
+    ]
+  },
+
+  "the-rebel-general": {
+    "id": 37,
+    "name": "The Rebel General",
+    "name_anchor": "the-rebel-general",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-rebel-general",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil {6}|When The Rebel General is unveiled, if it’s your main phase, for each other player, gain control of up to one target permanent that player controls until end of turn. Untap those permanents. They gain haste until end of turn.",
+    "flavor": "",
+    "artist": "larbesta @ DeviantArt",
+    "rulings": [
+      "Gaining control of a creature doesn’t cause you to gain control of any Auras or Equipment attached to it. However, if you gain control of a creature enchanted by an Aura with totem armor and that creature would be destroyed that turn, instead the Aura will be destroyed and the creature will survive."
+    ]
+  },
+
+  "the-seer": {
+    "id": 38,
+    "name": "The Seer",
+    "name_anchor": "the-seer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-seer",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {X} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Seer is unveiled, choose any target, shuffle your library, then scry X. Reveal the top card of your library and put it into your hand. The Seer deals damage equal to twice that card’s converted mana cost to that target.",
+    "flavor": "",
+    "artist": "DM7 (Martin MeKenzie) @ DeviantArt",
+    "rulings": [
+      "The X in the unveiling triggered ability has the same value as the X paid in the Unveil ability. This is pretty easy to derive since there is no other source of X.",
+      "If X is 0, you won’t scry at all. Any abilities that trigger whenever you scry won’t trigger.",
+      "Once The Seer’s unveiling triggered ability begins to resolve, no player may take other actions until it’s done. Notably, opponents can’t try to change your library after you scry but before you reveal the top card of your library.",
+      "If the revealed card in your library has {X} in its mana cost, X is considered to be 0.",
+      "The converted mana cost of a split card is based on the combined mana cost of its two halves.",
+      "An identity card has no color."
+    ]
+  },
+
+  "the-shapeshifting-slayer": {
+    "id": 39,
+    "name": "The Shapeshifting Slayer",
+    "name_anchor": "the-shapeshifting-slayer",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-shapeshifting-slayer",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "M",
+    "text": "Unveil {6}|When The Shapeshifting Slayer is unveiled, if it’s your main phase, choose a creature on the battlefield or a creature card in any zone other than a player’s hand or library. Create a token that’s a copy of it. That token gains menace, trample, and haste.",
+    "flavor": "",
+    "artist": "Matjosh (Andrius Matijosius) @ DeviantArt",
+    "rulings": [
+      "The Shapeshifting Slayer unveiling triggered ability doesn’t target the chosen creature.",
+      "Other zones are graveyard, battlefield, stack, exile, ante, and command.",
+      "As the token is created, it check the printed values of the creature it’s copying — or, if that creature is itself a token, the original characteristics of that token as stated by the effect that put it onto the battlefield — as well as any copy effects that have been applied to it. It won’t copy counters on the creature, nor will it copy other effects that have changed the creature’s power, toughness, types, color, or so on.",
+      "If the copied creature has {X} in its mana cost, that X is considered to be 0.",
+      "If the chosen creature is copying something else (for example, if the chosen creature is a Clone), then the Shapeshifting’s token enters the battlefield as whatever the chosen creature copied.",
+      "If the chosen creature is a token, the Shapeshifting’s token copies the original characteristics of that token as stated by the effect that put the token onto the battlefield.",
+      "Any enters-the-battlefield abilities of the copied creature will trigger when the Shapeshifting’s token enters the battlefield. Any \"as [this creature] enters the battlefield\" or \"[this creature] enters the battlefield with\" abilities of the chosen creature will also work."
+    ]
+  },
+
+  "the-sigil-mage": {
+    "id": 40,
+    "name": "The Sigil Mage",
+    "name_anchor": "the-sigil-mage",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-sigil-mage",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {6} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Sigil Mage is unveiled, you may cast up to two target instant or sorcery cards from graveyards without paying their mana costs.",
+    "flavor": "",
+    "artist": "Peter Orullian",
+    "rulings": [
+      "The instant or sorcery cards may come from different graveyards.",
+      "You cast the cards one at a time, choosing modes, targets and so on. The last card you cast will be the first one to resolve.",
+      "When casting an instant or sorcery card this way, ignore timing restrictions based on the card’s type. Other timing restrictions, such as \"Cast [this card] only during combat,\" must be followed.",
+      "If you can’t cast one of the target instant or sorcery cards, perhaps because there are no legal targets available, or if you choose not to cast one, it will remain in its owner’s graveyard.",
+      "If you cast a card \"without paying its mana cost,\" you can’t pay alternative costs such as overload costs. You can pay additional costs such as kicker costs. If the card has mandatory additional costs, you must pay those.",
+      "If a card has {X} in its mana cost, you must choose 0 as its value.",
+      "If an instant or sorcery card you cast this way is countered, it will still be exiled.",
+      "If you cast an instant or sorcery spell with cipher this way, you may exile the card encoded on a creature you control. If you can’t, or if you choose not to, the card will end up exiled but not encoded on a creature.",
+      "If an instant or sorcery card you cast this way goes to a zone other than exile or a graveyard, perhaps because one of its abilities says to put it into its owner’s hand, it won’t be exiled. This is true even if the card would be put into a graveyard later that turn."
+    ]
+  },
+
+  "the-sorceress": {
+    "id": 41,
+    "name": "The Sorceress",
+    "name_anchor": "the-sorceress",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-sorceress",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {4} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Sorceress is unveiled, you may choose new targets for target instant or sorcery spell. Then copy that spell. You may choose new targets for the copy.",
+    "flavor": "",
+    "artist": "Bluefley (Marc Brunet)",
+    "rulings": [
+      "The Sorceress’ unveiling triggered ability can target (and copy) any instant or sorcery spell, not just one with targets. It doesn’t matter who controls it.",
+      "When the unveiling triggered ability resolves, it creates a copy of a spell. You control the copy. The controller of the original spell retains control of that spell. The copy is created on the stack, so it’s not \"cast.\" Abilities that trigger when a player casts a spell won’t trigger. The copy will then resolve like a normal spell, after players get a chance to cast spells and activate abilities. The copy resolves before the original spell.",
+      "The copy will have the same targets as the spell it’s copying unless you choose new ones. You may change any number of the targets, including all of them or none of them. If, for one of the targets, you can’t choose a new legal target, then it remains unchanged (even if the current target is illegal).",
+      "If the spell The Sorceress copies is modal (that is, it says \"Choose one —\" or the like), the copy will have the same mode. You can’t choose a different one.",
+      "If the spell The Sorceress copies has an X whose value was determined as it was cast (like Fireball does), the copy has the same value of X.",
+      "You can’t choose to pay any additional costs for the copy. However, effects based on any additional costs that were paid for the original spell are copied as though those same costs were paid for the copy too. For example, if a player sacrifices a 3/3 creature to cast Fling, and you copy it with The Sorceress, the copy of Fling will also deal 3 damage to its target.",
+      "If the copy says that it affects \"you,\" it affects the controller of the copy, not the controller of the original spell. Similarly, if the copy says that it affects an \"opponent,\" it affects an opponent of the copy’s controller, not an opponent of the original spell’s controller."
+    ]
+  },
+
+  "the-war-shaman": {
+    "id": 42,
+    "name": "The War Shaman",
+    "name_anchor": "the-war-shaman",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-war-shaman",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "R",
+    "text": "Unveil {6}|When The War Shaman is unveiled, destroy up to two target noncreature permanents. If it’s your turn, create an X/X red Elemental creature token, where X is the total converted mana cost of the permanents destroyed this way.",
+    "flavor": "",
+    "artist": "Bob Khel @ DeviantArt",
+    "rulings": [
+      "The unveiling triggered ability is countered and you get no tokens if the permanents are illegal targets on resolution."
+    ]
+  },
+
+  "the-witch": {
+    "id": 43,
+    "name": "The Witch",
+    "name_anchor": "the-witch",
+    "uri": "https://mtgtreachery.net/rules/oracle/?card=the-witch",
+    "cost": "",
+    "cmc": 0,
+    "color": "red",
+    "type": "Identity — Assassin",
+    "types": {
+      "supertype": "Identity",
+      "subtype": "Assassin"
+    },
+    "rarity": "U",
+    "text": "Unveil {4} (Start the game with this identity face down in the command zone. Turn it face up any time for its unveil cost.)|When The Witch is unveiled, choose any number of target opponents. They each reveal their hand. For each of those players, you may choose a nonland card from their graveyard or hand and exile it.",
+    "flavor": "",
+    "artist": "Pervandr (Andrei Pervukhin) @ DeviantArt",
+    "rulings": ["No extra rules information."]
+  }
+}
