@@ -117,7 +117,6 @@ const commands = {
               players.add(user.id);
               break;
             case Emojis.Rocket:
-              console.log(client.users, players);
               const users = await Promise.all(
                 Array.from(players).map((id) => client.users.fetch(id))
               );
@@ -137,13 +136,15 @@ const commands = {
                 },
               });
 
-              for (const user of users) {
-                user.send(
-                  abilityHelpers.createEmbed(
-                    abilityHelpers.pickRandom(LeaderAbilities)
-                  )
-                );
+              try {
+                for (const { user, ability } of abilityHelpers.assign(users)) {
+                  user.send(abilityHelpers.createEmbed(ability));
+                }
+              } catch (error) {
+                console.error(error);
+                message.channel.send(error);
               }
+
               collector.stop();
               break;
             case Emojis.Stop:
