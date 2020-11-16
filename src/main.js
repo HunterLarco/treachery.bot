@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 const config = require('./config.private.json');
 const LeaderAbilities = require('./data/LeaderAbilities.json');
+const abilityHelpers = require('./helpers/ability.js');
 
 const client = new Discord.Client();
 
@@ -92,7 +93,7 @@ const commands = {
     message.channel
       .send({
         embed: {
-          title: 'Treachery Start',
+          title: 'Treachery Game Setup',
           description:
             'To join this game, click the thumbs-up emoji below. The game will ' +
             'start when someone clicks the rocket emoji.',
@@ -137,7 +138,11 @@ const commands = {
               });
 
               for (const user of users) {
-                user.send(JSON.stringify(randomRole(LeaderAbilities), null, 2));
+                user.send(
+                  abilityHelpers.createEmbed(
+                    abilityHelpers.pickRandom(LeaderAbilities)
+                  )
+                );
               }
               collector.stop();
               break;
