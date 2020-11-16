@@ -6,7 +6,9 @@
 
 ![](https://github.com/hunterlarco/treachery.bot/workflows/prettier/badge.svg)
 
-> [Add the bot to your discord server][bot-install] and then use `~help`.
+## Using The Bot
+
+[Add the bot to your discord server][bot-install] and then use `~help`.
 
 ## Contributing
 
