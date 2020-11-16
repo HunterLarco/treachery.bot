@@ -1,0 +1,27 @@
+{
+  "name": "treachery.bot",
+  "version": "1.0.0",
+  "description": "MTG Treachery Discord Bot",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HunterLarco/treachery.bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HunterLarco/treachery.bot/issues"
+  },
+  "homepage": "https://github.com/HunterLarco/treachery.bot#readme",
+  "dependencies": {
+    "discord.js": "12.4.1",
+    "fast-glob": "3.2.4",
+    "pick-random": "2.0.0",
+    "shuffle-array": "1.0.1",
+    "uuid": "8.3.1"
+  }
+}
