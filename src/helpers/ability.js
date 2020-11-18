@@ -32,7 +32,7 @@ function createEmbed(ability, options) {
 }
 
 function distribution(players) {
-  if (users.length < 4 || users.length > 8) {
+  if (players < 4 || players > 8) {
     throw 'Treachery requires 4-8 players';
   }
 
