@@ -13,6 +13,3 @@ npm-debug.log*
 
 # Ignore Vim swap files.
 .*.swp
-
-# Ignore private files
-*.private.*
