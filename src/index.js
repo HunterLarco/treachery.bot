@@ -1,5 +1,3 @@
-const config = require('./config.private.json');
-
 const environmentHelpers = require('./helpers/environment.js');
 
 async function configureDiscordClient(environment) {
@@ -10,11 +8,14 @@ async function configureDiscordClient(environment) {
   }
 
   client.on('message', async (message) => {
-    if (!message.content.startsWith(config.prefix)) {
+    if (!message.content.startsWith(environment.config.bot_prefix)) {
       return;
     }
 
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+    const args = message.content
+      .slice(environment.config.bot_prefix.length)
+      .trim()
+      .split(/ +/);
     const commandName = args[0];
 
     if (!commands.has(commandName)) {
@@ -43,8 +44,6 @@ async function configureDiscordClient(environment) {
 
 async function configureHealthCheck(environment) {
   return new Promise((resolve, reject) => {
-    const port = process.env.PORT || 3000;
-
     environment.server.get('/healthz', (request, response) => {
       if (environment.client.readyTimestamp != null) {
         response.send('ok');
@@ -53,8 +52,10 @@ async function configureHealthCheck(environment) {
       }
     });
 
-    environment.server.listen(port, () => {
-      console.log(`Health check active on port ${port}`);
+    environment.server.listen(environment.config.healthcheck_port, () => {
+      console.log(
+        `Health check active on port ${environment.config.healthcheck_port}`
+      );
       resolve();
     });
   });
@@ -64,7 +65,7 @@ async function main() {
   const environment = await environmentHelpers.create();
   await configureHealthCheck(environment);
   await configureDiscordClient(environment);
-  environment.client.login(config.token);
+  environment.client.login(environment.config.bot_token);
 }
 
 if (require.main === module) {
