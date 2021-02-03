@@ -1,15 +1,12 @@
-name: prettier
+name: pre-release
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
 
 jobs:
-  lint:
+  pre-release:
     runs-on: ubuntu-latest
 
     steps:

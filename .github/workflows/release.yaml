@@ -1,0 +1,26 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Build + Push to ECR
+        uses: appleboy/docker-ecr-action@master
+        with:
+          access_key: ${{ secrets.AWS_ECR_ACCESS_KEY }}
+          secret_key: ${{ secrets.AWS_ECR_SECRET_KEY }}
+          registry: ${{ secrets.AWS_ECR_REGISTRY }}
+          repo: treachery-bot
+          region: us-east-1
+          tags: latest,${{ github.sha }}
+          daemon_off: false
