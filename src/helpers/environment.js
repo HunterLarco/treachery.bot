@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const express = require('express');
 const path = require('path');
 
 const commandHelpers = require('./commands.js');
@@ -6,6 +7,8 @@ const commandHelpers = require('./commands.js');
 async function create() {
   return {
     client: new Discord.Client(),
+
+    server: express(),
 
     commands: await commandHelpers.loadFromDirectory(
       path.join(__dirname, '../commands/')
