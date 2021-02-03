@@ -24,6 +24,7 @@
   "homepage": "https://github.com/HunterLarco/treachery.bot#readme",
   "dependencies": {
     "discord.js": "12.4.1",
+    "express": "4.17.1",
     "fast-glob": "3.2.4",
     "pick-random": "2.0.0",
     "shuffle-array": "1.0.1",
