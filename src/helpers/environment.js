@@ -5,7 +5,19 @@ const path = require('path');
 const commandHelpers = require('./commands.js');
 
 async function create() {
+  const config = {
+    healthcheck_port: process.env.HEALTHCHECK_PORT || 3000,
+    bot_prefix: process.env.BOT_PREFIX || '~',
+    bot_token: process.env.BOT_TOKEN,
+  };
+
+  if (!config.bot_token) {
+    throw 'Env variable BOT_TOKEN must be specified.';
+  }
+
   return {
+    config,
+
     client: new Discord.Client(),
 
     server: express(),

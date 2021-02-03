@@ -9,4 +9,7 @@ WORKDIR /bot
 
 RUN npm install --production
 
+ARG BOT_TOKEN
+ENV BOT_TOKEN $BOT_TOKEN
+
 CMD ["node", "index.js"]

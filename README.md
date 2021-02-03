@@ -18,17 +18,6 @@ All dependencies can be installed via `npm install`.
 
 ### Local Development
 
-You will need to create `src/config.private.json` which contains the following
-
-```json
-{
-  "prefix": "<command prefix>",
-  "token": "<bot token>"
-}
-```
-
-then you can run
-
 ```sh
 npm start
 ```
