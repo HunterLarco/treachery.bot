@@ -4,7 +4,7 @@
   src="https://mtgtreachery.net/images/drama-masks-colored-with-borders.png"
   height="100" />
 
-![](https://github.com/hunterlarco/treachery.bot/workflows/prettier/badge.svg)
+![](https://github.com/hunterlarco/treachery.bot/workflows/release/badge.svg)
 
 ## Using The Bot
 
