@@ -82,10 +82,18 @@ function distributionText(players) {
   return text;
 }
 
-function* assign(users) {
+function* assign(users, { notLeader }) {
+  const canBeLeader = users.filter((user) => !notLeader.has(user.id));
+  const [leader] = pickRandom(canBeLeader);
+  const everyoneElse = users.filter((user) => user !== leader);
+
+  yield {
+    user: leader,
+    ability: pickRandom(Object.values(LeaderAbilities))[0],
+  };
+
   const counts = distribution(users.length);
   const pool = [
-    ...pickRandom(Object.values(LeaderAbilities), { count: counts.leader }),
     ...pickRandom(Object.values(TraitorAbilities), { count: counts.traitor }),
     ...pickRandom(Object.values(AssassinAbilities), { count: counts.assassin }),
     ...pickRandom(Object.values(GuardianAbilities), {
@@ -95,9 +103,9 @@ function* assign(users) {
 
   shuffleArray(pool);
 
-  for (let i = 0; i < users.length; ++i) {
+  for (let i = 0; i < everyoneElse.length; ++i) {
     yield {
-      user: users[i],
+      user: everyoneElse[i],
       ability: pool[i],
     };
   }
