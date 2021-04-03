@@ -93,9 +93,10 @@ module.exports = {
       embed: {
         title: 'Treachery Game Setup',
         description:
-          `To join this game, click ${Emojis.ThumbsUp} below. The game will ` +
-          `start when someone clicks ${Emojis.Rocket}. If you don't want to ` +
-          `be the leader, click ${Emojis.NotLeader}.`,
+          `Click ${Emojis.ThumbsUp} to join this game.\n` +
+          `Click ${Emojis.Rocket} to start this game.\n` +
+          `Click ${Emojis.NotLeader} if you don't want to be the leader.\n` +
+          `Click ${Emojis.Stop} to cancel this game.`,
       },
     });
 
