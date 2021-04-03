@@ -76,7 +76,7 @@ async function startGame(
     if (ability.types.subtype == 'Leader') {
       channel.send(
         abilityHelpers.createEmbed(ability, {
-          name: user.tag,
+          name: `<@${user.id}>`,
         })
       );
     }

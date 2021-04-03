@@ -9,7 +9,7 @@ module.exports = {
       message.channel.send({
         embed: {
           title: 'Nothing To Reveal',
-          description: `${message.author.tag}, you are not currently in a game.`,
+          description: `<@${message.author.id}>, you are not currently in a game.`,
         },
       });
       return;
@@ -21,7 +21,7 @@ module.exports = {
 
     message.channel.send(
       abilityHelpers.createEmbed(ability, {
-        name: message.author.tag,
+        name: `<@${message.author.id}>`,
       })
     );
   },
