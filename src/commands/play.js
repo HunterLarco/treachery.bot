@@ -7,14 +7,31 @@ const Emojis = {
   ThumbsUp: '👍',
   Rocket: '🚀',
   Stop: '🛑',
+  NotLeader: '🙅',
 };
 
-async function startGame(environment, channel, user, playerIds) {
+async function startGame(
+  environment,
+  channel,
+  user,
+  playerIds,
+  notLeaderPlayers
+) {
   if (playerIds.length < 4 || playerIds.length > 8) {
     channel.send({
       embed: {
         title: 'Treachery Failed To Start',
         description: 'Treachery requires 4-8 players.',
+      },
+    });
+    return;
+  }
+
+  if (playerIds.lenth - notLeaderPlayers.size == 0) {
+    channel.send({
+      embed: {
+        title: 'Treachery Failed To Start',
+        description: 'At least one player must be willing to be the leader.',
       },
     });
     return;
@@ -49,7 +66,9 @@ async function startGame(environment, channel, user, playerIds) {
     },
   });
 
-  for (const { user, ability } of abilityHelpers.assign(users)) {
+  for (const { user, ability } of abilityHelpers.assign(users, {
+    notLeader: notLeaderPlayers,
+  })) {
     game.users.set(user.id, { ability });
     environment.state.usersToGame.set(user.id, gameId);
     user.send(abilityHelpers.createEmbed(ability));
@@ -74,16 +93,19 @@ module.exports = {
       embed: {
         title: 'Treachery Game Setup',
         description:
-          'To join this game, click the thumbs-up emoji below. The game will ' +
-          'start when someone clicks the rocket emoji.',
+          `To join this game, click ${Emojis.ThumbsUp} below. The game will ` +
+          `start when someone clicks ${Emojis.Rocket}. If you don't want to ` +
+          `be the leader, click ${Emojis.NotLeader}.`,
       },
     });
 
     setupMessage.react(Emojis.ThumbsUp);
     setupMessage.react(Emojis.Rocket);
+    setupMessage.react(Emojis.NotLeader);
     setupMessage.react(Emojis.Stop);
 
     const readyPlayers = new Set();
+    const notLeaderPlayers = new Set();
 
     const collector = setupMessage.createReactionCollector(
       (reaction, user) => user.id != setupMessage.author.id,
@@ -97,7 +119,16 @@ module.exports = {
           break;
         case Emojis.Rocket:
           collector.stop();
-          startGame(environment, message.channel, user, [...readyPlayers]);
+          startGame(
+            environment,
+            message.channel,
+            user,
+            [...readyPlayers],
+            notLeaderPlayers
+          );
+          break;
+        case Emojis.NotLeader:
+          notLeaderPlayers.add(user.id);
           break;
         case Emojis.Stop:
           collector.stop();
@@ -115,6 +146,9 @@ module.exports = {
       switch (reaction.emoji.name) {
         case Emojis.ThumbsUp:
           readyPlayers.delete(user.id);
+          break;
+        case Emojis.NotLeader:
+          notLeaderPlayers.delete(user.id);
           break;
       }
     });

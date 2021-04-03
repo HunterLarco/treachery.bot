@@ -6,16 +6,21 @@ on:
       - master
 
 jobs:
-  pre-release:
+  lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
         with:
           lfs: true
 
-      - name: Lint
-        uses: creyD/prettier_action@v2.2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          dry: true
-          prettier_options: --write .
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm ci
+      - run: npm run lint:check
