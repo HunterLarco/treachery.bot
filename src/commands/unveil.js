@@ -21,7 +21,7 @@ module.exports = {
 
     message.channel.send(
       abilityHelpers.createEmbed(ability, {
-        name: `<@${message.author.id}>`,
+        name: message.author.username,
       })
     );
   },

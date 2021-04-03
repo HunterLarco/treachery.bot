@@ -49,7 +49,7 @@ async function startGame(
     embed: {
       title: 'Treachery Game Starting!',
       description:
-        `The game has been started by ${user.tag}. All of the ` +
+        `The game has been started by <@${user.id}>. All of the ` +
         'below players will be privately messaged a role.',
       fields: [
         {
@@ -76,7 +76,7 @@ async function startGame(
     if (ability.types.subtype == 'Leader') {
       channel.send(
         abilityHelpers.createEmbed(ability, {
-          name: `<@${user.id}>`,
+          name: user.username,
         })
       );
     }
