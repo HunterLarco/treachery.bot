@@ -7,7 +7,7 @@ module.exports = {
         title: 'Treachery Help',
         description:
           'Treachery is a bot that helps you run your MTG Treachery games!',
-        fields: Array.from(environment.commands.values()).map((command) => ({
+        fields: environment.commands.map((command) => ({
           name: command.name,
           value: command.description,
         })),
