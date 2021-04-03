@@ -3,8 +3,11 @@ const environmentHelpers = require('./helpers/environment.js');
 async function configureDiscordClient(environment) {
   const { client, commands } = environment;
 
-  for (const command of commands.keys()) {
-    console.log(`Loaded command '${command}'`);
+  for (const command of commands) {
+    console.log(`Loaded command '${command.name}'`);
+    if (command.alias) {
+      console.log(`  Alias: ${command.alias.join(', ')}`);
+    }
   }
 
   client.on('message', async (message) => {
@@ -18,11 +21,15 @@ async function configureDiscordClient(environment) {
       .split(/ +/);
     const commandName = args[0];
 
-    if (!commands.has(commandName)) {
+    const command = commands.find(
+      (command) =>
+        command.name == commandName ||
+        (command.alias && command.alias.some((alias) => alias == commandName))
+    );
+
+    if (!command) {
       return;
     }
-
-    const command = commands.get(commandName);
 
     try {
       await command.execute(environment, message, args);

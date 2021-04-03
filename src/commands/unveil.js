@@ -1,7 +1,8 @@
 const abilityHelpers = require('../helpers/ability.js');
 
 module.exports = {
-  name: 'reveal',
+  name: 'unveil',
+  alias: ['reveal'],
   description: 'Reveals your current role to the channel.',
   execute(environment, message, args) {
     if (!environment.state.usersToGame.has(message.author.id)) {
