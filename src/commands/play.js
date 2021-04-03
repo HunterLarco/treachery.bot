@@ -54,7 +54,7 @@ async function startGame(
       fields: [
         {
           name: 'Players',
-          value: '• ' + users.map((user) => user.tag).join('\n• '),
+          value: users.map((user) => `<@${user.id}>`).join('\n'),
         },
         {
           name: 'Distribution',
@@ -89,7 +89,7 @@ module.exports = {
   name: 'play',
   description: 'Starts a new game of treachery.',
   async execute(environment, message, args) {
-    const readyUsers = new Map(); // user id -> user
+    const readyUserIds = new Set();
     const notLeaderUserIds = new Set();
 
     const createSetupMessage = () => ({
@@ -100,19 +100,17 @@ module.exports = {
           `Click ${Emojis.Rocket} to start this game.\n` +
           `Click ${Emojis.NotLeader} if you don't want to be the leader.\n` +
           `Click ${Emojis.Stop} to cancel this game.`,
-        fields: readyUsers.size
+        fields: readyUserIds.size
           ? [
               {
                 name: 'Ready Players',
-                value:
-                  '• ' +
-                  [...readyUsers.values()]
-                    .map(
-                      (user) =>
-                        user.tag +
-                        (notLeaderUserIds.has(user.id) ? ' (not leader)' : '')
-                    )
-                    .join('\n• '),
+                value: [...readyUserIds]
+                  .map(
+                    (userId) =>
+                      `<@${userId}>` +
+                      (notLeaderUserIds.has(userId) ? ' (not leader)' : '')
+                  )
+                  .join('\n'),
               },
             ]
           : [],
@@ -134,7 +132,7 @@ module.exports = {
     collector.on('collect', (reaction, user) => {
       switch (reaction.emoji.name) {
         case Emojis.ThumbsUp:
-          readyUsers.set(user.id, { id: user.id, tag: user.tag });
+          readyUserIds.add(user.id);
           setupMessage.edit(createSetupMessage());
           break;
         case Emojis.Rocket:
@@ -143,7 +141,7 @@ module.exports = {
             environment,
             message.channel,
             user,
-            [...readyUsers.keys()],
+            [...readyUserIds],
             notLeaderUserIds
           );
           break;
@@ -166,7 +164,7 @@ module.exports = {
     collector.on('remove', (reaction, user) => {
       switch (reaction.emoji.name) {
         case Emojis.ThumbsUp:
-          readyUsers.delete(user.id);
+          readyUserIds.delete(user.id);
           setupMessage.edit(createSetupMessage());
           break;
         case Emojis.NotLeader:
