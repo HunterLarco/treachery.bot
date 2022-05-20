@@ -22,19 +22,20 @@ class IdentityDataSource {
   }
 
   async getIdentities() {
-    if (!this._identities || Date.now() - this._lastFetch > kDuration_Day) {
+    if (!this._identities) {
+      this._identities = await fetchIdentities();
+      this._lastFetch = Date.now();
+    } else if (Date.now() - this._lastFetch > kDuration_Day) {
       try {
         this._identities = await fetchIdentities();
+        this._lastFetch = Date.now();
       } catch (error) {
-        if (this._identities) {
-          console.error('Failed to refresh data source with error:', error);
-          return this._identities;
-        }
-        throw error;
+        console.error('Failed to refresh data source with error:', error);
+        return this._identities;
       }
-      this._lastFetch = Date.now();
+    } else {
+      return this._identities;
     }
-    return this._identities;
   }
 }
 
