@@ -20,7 +20,7 @@ class IdentityDataSource {
 
   async getIdentities() {
     if (!this._identities) {
-      this._identities = await this._fetchIdentities();
+      this._identities = await fetchIdentities();
     }
     return this._identities;
   }
