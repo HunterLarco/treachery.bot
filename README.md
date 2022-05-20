@@ -28,13 +28,13 @@ Code will automatically be linted when you run `git commit` and as a required
 status check for all PRs. You can lint the codebase yourself with
 
 ```sh
-npm run check-code
+npm run lint
 ```
 
 and you can automatically fix your code with
 
 ```sh
-npm run format-code
+npm run lint:fix
 ```
 
 ### Pull Requests
