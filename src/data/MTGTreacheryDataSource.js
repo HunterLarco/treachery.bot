@@ -7,6 +7,12 @@ async function fetchIdentities() {
     'https://mtgtreachery.net/rules/oracle/treachery-cards.json'
   ).then((response) => response.json());
 
+  for (const card of cards) {
+    card.image = encodeURI(
+      `https://mtgtreachery.net/images/cards/en/trd/${card.types.subtype} - ${card.name}.jpg`
+    );
+  }
+
   return {
     assassins: cards.filter((card) => card.types.subtype == 'Assassin'),
     guardians: cards.filter((card) => card.types.subtype == 'Guardian'),
@@ -31,11 +37,10 @@ class IdentityDataSource {
         this._lastFetch = Date.now();
       } catch (error) {
         console.error('Failed to refresh data source with error:', error);
-        return this._identities;
       }
-    } else {
-      return this._identities;
     }
+
+    return this._identities;
   }
 }
 
