@@ -23,7 +23,15 @@ class IdentityDataSource {
 
   async getIdentities() {
     if (!this._identities || Date.now() - this._lastFetch > kDuration_Day) {
-      this._identities = await fetchIdentities();
+      try {
+        this._identities = await fetchIdentities();
+      } catch (error) {
+        if (this._identities) {
+          console.error('Failed to refresh data source with error:', error);
+          return this._identities;
+        }
+        throw error;
+      }
       this._lastFetch = Date.now();
     }
     return this._identities;
