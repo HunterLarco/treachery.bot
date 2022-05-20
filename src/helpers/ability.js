@@ -1,10 +1,7 @@
 const pickRandom = require('pick-random');
 const shuffleArray = require('shuffle-array');
 
-const AssassinAbilities = require('../data/AssassinAbilities.json');
-const GuardianAbilities = require('../data/GuardianAbilities.json');
-const LeaderAbilities = require('../data/LeaderAbilities.json');
-const TraitorAbilities = require('../data/TraitorAbilities.json');
+const { IdentityDataSource } = require('../data/MTGTreacheryDataSource.js');
 
 function createEmbed(ability, options) {
   const { name } = options || {};
@@ -82,23 +79,23 @@ function distributionText(players) {
   return text;
 }
 
-function* assign(users, { notLeader }) {
+async function* assign(users, { notLeader }) {
   const canBeLeader = users.filter((user) => !notLeader.has(user.id));
   const [leader] = pickRandom(canBeLeader);
   const everyoneElse = users.filter((user) => user !== leader);
 
+  const identities = await IdentityDataSource.getIdentities();
+
   yield {
     user: leader,
-    ability: pickRandom(Object.values(LeaderAbilities))[0],
+    ability: pickRandom(identities.leaders)[0],
   };
 
   const counts = distribution(users.length);
   const pool = [
-    ...pickRandom(Object.values(TraitorAbilities), { count: counts.traitor }),
-    ...pickRandom(Object.values(AssassinAbilities), { count: counts.assassin }),
-    ...pickRandom(Object.values(GuardianAbilities), {
-      count: counts.guardian,
-    }),
+    ...pickRandom(identities.traitors, { count: counts.traitor }),
+    ...pickRandom(identities.assassins, { count: counts.assassin }),
+    ...pickRandom(identities.guardians, { count: counts.guardian }),
   ];
 
   shuffleArray(pool);

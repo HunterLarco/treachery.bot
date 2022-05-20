@@ -66,7 +66,7 @@ async function startGame(
     },
   });
 
-  for (const { user, ability } of abilityHelpers.assign(users, {
+  for (const { user, ability } of await abilityHelpers.assign(users, {
     notLeader: notLeaderPlayers,
   })) {
     game.users.set(user.id, { ability });
@@ -143,7 +143,15 @@ module.exports = {
             user,
             [...readyUserIds],
             notLeaderUserIds
-          );
+          ).catch((error) => {
+            console.error('Failed to start game with error:', error);
+            message.channel.send({
+              embed: {
+                title: 'Failed To Start Game',
+                description: error.toString(),
+              },
+            });
+          });
           break;
         case Emojis.NotLeader:
           notLeaderUserIds.add(user.id);
