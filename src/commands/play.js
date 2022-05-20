@@ -66,7 +66,7 @@ async function startGame(
     },
   });
 
-  for (const { user, ability } of await abilityHelpers.assign(users, {
+  for await (const { user, ability } of abilityHelpers.assign(users, {
     notLeader: notLeaderPlayers,
   })) {
     game.users.set(user.id, { ability });
