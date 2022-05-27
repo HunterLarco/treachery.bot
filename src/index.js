@@ -45,6 +45,9 @@ async function configureDiscordClient(environment) {
   });
 
   client.once('ready', () => {
+    client.user.setActivity(`${environment.config.bot_prefix}help`, {
+      type: 'WATCHING',
+    });
     console.log('Ready!');
   });
 }
