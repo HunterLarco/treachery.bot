@@ -1,3 +1,4 @@
+const dynamoose = require('dynamoose');
 const { v4: uuidv4 } = require('uuid');
 
 const abilityHelpers = require('../helpers/ability.js');
@@ -15,7 +16,7 @@ async function startGame(
   channel,
   user,
   playerIds,
-  notLeaderPlayers
+  notLeaderPlayerIds
 ) {
   if (playerIds.length < 4 || playerIds.length > 8) {
     channel.send({
@@ -27,7 +28,7 @@ async function startGame(
     return;
   }
 
-  if (playerIds.lenth - notLeaderPlayers.size == 0) {
+  if (playerIds.length - notLeaderPlayerIds.size == 0) {
     channel.send({
       embed: {
         title: 'Treachery Failed To Start',
@@ -37,11 +38,35 @@ async function startGame(
     return;
   }
 
-  const gameId = uuidv4();
+  // Create the `Game` database item.
+
   const game = {
-    users: new Map(),
-    dateCreated: new Date(),
+    key: uuidv4(),
+    players: [],
+    startTime: new Date(),
   };
+
+  for await (const { userId, ability } of abilityHelpers.assign(playerIds, {
+    notLeader: notLeaderPlayerIds,
+  })) {
+    game.players.push({
+      userId: user.id,
+      ability,
+    });
+  }
+
+  // Write the game database item and update all players' current game.
+
+  const transaction = [environment.db.Games.create(game)];
+  for (const userId of playerIds) {
+    transaction.push(
+      environment.db.Users.update({ userId }, { currentGame: game.key })
+    );
+  }
+  await dynamoose.transaction(transaction);
+
+  // Once all of the db commands are executed successfully, notify all of the
+  // players that the game has begun.
 
   const users = await userHelpers.fetchAll(environment, playerIds);
 
@@ -66,11 +91,10 @@ async function startGame(
     },
   });
 
-  for await (const { user, ability } of abilityHelpers.assign(users, {
-    notLeader: notLeaderPlayers,
-  })) {
-    game.users.set(user.id, { ability });
-    environment.state.usersToGame.set(user.id, gameId);
+  for (const user of users) {
+    const ability = game.players.find(({ userId }) => userId == user.id)
+      .ability;
+
     user.send(abilityHelpers.createEmbed(ability));
 
     if (ability.types.subtype == 'Leader') {
@@ -81,8 +105,6 @@ async function startGame(
       );
     }
   }
-
-  environment.state.games.set(gameId, game);
 }
 
 module.exports = {
