@@ -1,5 +1,14 @@
 const createGame = require('../helpers/createGame.js');
 
+function replyNoPreviousGame(message) {
+  message.channel.send({
+    embed: {
+      title: 'Failed To Start Game',
+      description: `<@${message.author.id}>, you are not currently in a game.`,
+    },
+  });
+}
+
 module.exports = {
   name: 'playagain',
   description:
