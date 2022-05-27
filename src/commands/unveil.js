@@ -1,5 +1,14 @@
 const abilityHelpers = require('../helpers/ability.js');
 
+function replyNotInAGame(message) {
+  message.channel.send({
+    embed: {
+      title: 'Nothing To Reveal',
+      description: `<@${message.author.id}>, you are not currently in a game.`,
+    },
+  });
+}
+
 module.exports = {
   name: 'unveil',
   alias: ['reveal'],
@@ -8,16 +17,16 @@ module.exports = {
     const user = await environment.db.Users.get({ userId: message.author.id });
 
     if (!user || !user.currentGame) {
-      message.channel.send({
-        embed: {
-          title: 'Nothing To Reveal',
-          description: `<@${message.author.id}>, you are not currently in a game.`,
-        },
-      });
+      replyNotInAGame(message);
       return;
     }
 
     const game = await environment.db.Games.get({ key: user.currentGame });
+    if (!game) {
+      replyNotInAGame(message);
+      return;
+    }
+
     const { ability } = game.players.find(
       (player) => player.userId == message.author.id
     );
