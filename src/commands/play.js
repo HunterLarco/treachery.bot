@@ -18,26 +18,24 @@ async function startGame(
   playerIds,
   notLeaderPlayerIds
 ) {
-  if (!environment.config.debug) {
-    if (playerIds.length < 4 || playerIds.length > 8) {
-      channel.send({
-        embed: {
-          title: 'Treachery Failed To Start',
-          description: 'Treachery requires 4-8 players.',
-        },
-      });
-      return;
-    }
+  if (playerIds.length < 4 || playerIds.length > 8) {
+    channel.send({
+      embed: {
+        title: 'Treachery Failed To Start',
+        description: 'Treachery requires 4-8 players.',
+      },
+    });
+    return;
+  }
 
-    if (playerIds.length - notLeaderPlayerIds.size == 0) {
-      channel.send({
-        embed: {
-          title: 'Treachery Failed To Start',
-          description: 'At least one player must be willing to be the leader.',
-        },
-      });
-      return;
-    }
+  if (playerIds.length - notLeaderPlayerIds.size == 0) {
+    channel.send({
+      embed: {
+        title: 'Treachery Failed To Start',
+        description: 'At least one player must be willing to be the leader.',
+      },
+    });
+    return;
   }
 
   // Create the `Game` database item.
@@ -50,10 +48,7 @@ async function startGame(
     expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
   };
 
-  const assignFn = environment.config.debug
-    ? abilityHelpers.debugAssign
-    : abilityHelpers.assign;
-  for await (const { userId, ability } of assignFn(playerIds, {
+  for await (const { userId, ability } of abilityHelpers.assign(playerIds, {
     notLeader: notLeaderPlayerIds,
   })) {
     game.players.push({
