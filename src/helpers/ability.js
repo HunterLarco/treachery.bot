@@ -79,15 +79,15 @@ function distributionText(players) {
   return text;
 }
 
-async function* assign(users, { notLeader }) {
-  const canBeLeader = users.filter((user) => !notLeader.has(user.id));
+async function* assign(userIds, { notLeader }) {
+  const canBeLeader = userIds.filter((userId) => !notLeader.has(userId));
   const [leader] = pickRandom(canBeLeader);
-  const everyoneElse = users.filter((user) => user !== leader);
+  const everyoneElse = userIds.filter((userId) => userId !== leader);
 
   const identities = await IdentityDataSource.getIdentities();
 
   yield {
-    user: leader,
+    userId: leader,
     ability: pickRandom(identities.leaders)[0],
   };
 
@@ -102,7 +102,7 @@ async function* assign(users, { notLeader }) {
 
   for (let i = 0; i < everyoneElse.length; ++i) {
     yield {
-      user: everyoneElse[i],
+      userId: everyoneElse[i],
       ability: pool[i],
     };
   }

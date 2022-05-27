@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 
 const commandHelpers = require('./commands.js');
+const dynamoClient = require('./dynamodb.js');
 
 async function create() {
   const config = {
@@ -22,24 +23,11 @@ async function create() {
 
     server: express(),
 
+    db: dynamoClient,
+
     commands: await commandHelpers.loadFromDirectory(
       path.join(__dirname, '../commands/')
     ),
-
-    state: {
-      // Map<string, {
-      //   users: Object<id, {
-      //     ability: Ability,
-      //   }>,
-      //   dateCreated: Date,
-      // }>
-      games: new Map(),
-
-      // Maps from user id to game id.
-      //
-      // Map<string, string>
-      usersToGame: new Map(),
-    },
   };
 }
 
