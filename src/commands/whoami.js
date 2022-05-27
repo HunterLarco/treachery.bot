@@ -3,8 +3,10 @@ const abilityHelpers = require('../helpers/ability.js');
 module.exports = {
   name: 'whoami',
   description: 'Privately messages you your current role.',
-  execute(environment, message, args) {
-    if (!environment.state.usersToGame.has(message.author.id)) {
+  async execute(environment, message, args) {
+    const user = await environment.db.Users.get({ userId: message.author.id });
+
+    if (!user || !user.currentGame) {
       message.channel.send({
         embed: {
           title: 'Who Are You?',
@@ -14,9 +16,10 @@ module.exports = {
       return;
     }
 
-    const { ability } = environment.state.games
-      .get(environment.state.usersToGame.get(message.author.id))
-      .users.get(message.author.id);
+    const game = await environment.db.Games.get({ key: user.currentGame });
+    const { ability } = game.players.find(
+      (player) => player.userId == message.author.id
+    );
 
     message.channel.send({
       embed: {
