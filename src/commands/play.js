@@ -88,7 +88,9 @@ async function startGame(
         },
         {
           name: 'Distribution',
-          value: 'test',
+          value:
+            'In this game there is ' +
+            abilityHelpers.distributionText(users.length),
         },
       ],
     },
