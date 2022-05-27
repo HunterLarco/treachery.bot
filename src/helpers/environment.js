@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 
 const commandHelpers = require('./commands.js');
+const dynamoClient = require('./dynamodb.js');
 
 async function create() {
   const config = {
@@ -21,6 +22,8 @@ async function create() {
     client: new Discord.Client(),
 
     server: express(),
+
+    dynamodb: dynamoClient,
 
     commands: await commandHelpers.loadFromDirectory(
       path.join(__dirname, '../commands/')

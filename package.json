@@ -24,6 +24,7 @@
   "homepage": "https://github.com/HunterLarco/treachery.bot#readme",
   "dependencies": {
     "discord.js": "12.4.1",
+    "dynamoose": "2.8.5",
     "express": "4.17.1",
     "fast-glob": "3.2.4",
     "node-fetch": "2.6.7",
