@@ -28,6 +28,12 @@ const GameSchema = new Schema({
     type: Array,
     schema: [PlayerSchema],
   },
+
+  // Expiration is a timestamp expressed in seconds instead of a `Date` to
+  // accomodate DynamoDB's TTL requirements.
+  //
+  // See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/time-to-live-ttl-before-you-start.html
+  expiration: Number,
 });
 
 module.exports = {

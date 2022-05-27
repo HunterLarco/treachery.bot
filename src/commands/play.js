@@ -46,6 +46,8 @@ async function startGame(
     key: uuidv4(),
     players: [],
     startTime: new Date(),
+    // Automatically cleanup games older than 30 days.
+    expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
   };
 
   const assignFn = environment.config.debug
