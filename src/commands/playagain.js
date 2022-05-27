@@ -1,4 +1,4 @@
-const createGame = require('../helpers/createGame.js');
+const { createGame } = require('../helpers/createGame.js');
 
 function replyNoPreviousGame(message) {
   message.channel.send({
@@ -30,9 +30,11 @@ module.exports = {
       channel: message.channel,
       actor: message.author,
       playerIds: game.players.map((player) => player.userId),
-      notLeaderPlayerIds: game.players
-        .filter((player) => player.ability.types.subtype == 'Leader')
-        .map((player) => player.userId),
+      notLeaderPlayerIds: new Set(
+        game.players
+          .filter((player) => player.ability.types.subtype == 'Leader')
+          .map((player) => player.userId)
+      ),
     });
   },
 };

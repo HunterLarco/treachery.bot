@@ -1,4 +1,4 @@
-const createGame = require('../helpers/createGame.js');
+const { createGame } = require('../helpers/createGame.js');
 
 const Emojis = {
   ThumbsUp: '👍',
