@@ -10,6 +10,7 @@ async function create() {
     healthcheck_port: process.env.HEALTHCHECK_PORT || 3000,
     bot_prefix: process.env.BOT_PREFIX || '~',
     bot_token: process.env.BOT_TOKEN,
+    debug: !!process.env.DEBUG,
   };
 
   if (!config.bot_token) {

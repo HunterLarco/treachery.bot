@@ -79,6 +79,35 @@ function distributionText(players) {
   return text;
 }
 
+async function* debugAssign(userIds, { notLeader }) {
+  const canBeLeader = userIds.filter((userId) => !notLeader.has(userId));
+  const [leader] = canBeLeader.length ? pickRandom(canBeLeader) : [null];
+  const everyoneElse = userIds.filter((userId) => userId !== leader);
+
+  const identities = await IdentityDataSource.getIdentities();
+
+  if (leader) {
+    yield {
+      userId: leader,
+      ability: pickRandom(identities.leaders)[0],
+    };
+  }
+
+  const pool = pickRandom(
+    [...identities.traitors, ...identities.assassins, ...identities.guardians],
+    { count: everyoneElse.length }
+  );
+
+  shuffleArray(pool);
+
+  for (let i = 0; i < everyoneElse.length; ++i) {
+    yield {
+      userId: everyoneElse[i],
+      ability: pool[i],
+    };
+  }
+}
+
 async function* assign(userIds, { notLeader }) {
   const canBeLeader = userIds.filter((userId) => !notLeader.has(userId));
   const [leader] = pickRandom(canBeLeader);
@@ -113,4 +142,5 @@ module.exports = {
   distribution,
   distributionText,
   assign,
+  debugAssign,
 };
