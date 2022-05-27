@@ -23,7 +23,7 @@ async function create() {
 
     server: express(),
 
-    dynamodb: dynamoClient,
+    db: dynamoClient,
 
     commands: await commandHelpers.loadFromDirectory(
       path.join(__dirname, '../commands/')
