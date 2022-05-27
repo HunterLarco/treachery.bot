@@ -5,9 +5,20 @@ const UserSchema = new Schema({
   currentGame: String,
 });
 
+const AbilitySchema = new Schema({
+  name: String,
+  types: new Schema({
+    supertype: String,
+    subtype: String,
+  }),
+  uri: String,
+  image: String,
+  text: String,
+});
+
 const PlayerSchema = new Schema({
   userId: String,
-  ability: Object,
+  ability: AbilitySchema,
 });
 
 const GameSchema = new Schema({

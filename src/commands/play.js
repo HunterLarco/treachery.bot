@@ -62,10 +62,13 @@ async function startGame(
 
   // Write the game database item and update all players' current game.
 
-  const transaction = [environment.db.Games.create(game)];
+  const transaction = [environment.db.Games.transaction.create(game)];
   for (const userId of playerIds) {
     transaction.push(
-      environment.db.Users.update({ userId }, { currentGame: game.key })
+      environment.db.Users.transaction.update(
+        { userId },
+        { currentGame: game.key }
+      )
     );
   }
   await dynamoose.transaction(transaction);
@@ -88,9 +91,7 @@ async function startGame(
         },
         {
           name: 'Distribution',
-          value:
-            'In this game there is ' +
-            abilityHelpers.distributionText(users.length),
+          value: 'test',
         },
       ],
     },
