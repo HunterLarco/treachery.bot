@@ -12,13 +12,27 @@
 
 ## Contributing
 
+### Using the correct Node version
+
+```sh
+nvm use
+```
+
 ### Install project dependencies
 
 All dependencies can be installed via `npm install`.
 
 ### Local Development
 
+Local development requires a few environment variables to configure the bot. See
+[environment.js](./src/helpers/environment.js) for more details.
+
 ```sh
+export BOT_PREFIX = '...'
+export BOT_TOKEN  = '...'
+export AWS_REGION = '...'
+export DEBUG      = true
+
 npm start
 ```
 
