@@ -4,6 +4,8 @@ const { v4: uuidv4 } = require('uuid');
 const abilityHelpers = require('./ability.js');
 const userHelpers = require('./users.js');
 
+const FAKE_USER_ID = Symbol('Fake User ID');
+
 async function createGame(
   environment,
   { channel, actor, playerIds, notLeaderPlayerIds }
@@ -38,11 +40,20 @@ async function createGame(
     expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
   };
 
+  let leader;
   for await (const { userId, ability } of abilityHelpers.assign(playerIds, {
     notLeader: notLeaderPlayerIds,
   })) {
+    if (ability.types.subtype == 'Leader') {
+      leader = { userId, ability };
+    }
+
+    if (userId == FAKE_USER_ID) {
+      continue;
+    }
+
     game.players.push({
-      userId: user.id,
+      userId,
       ability,
     });
   }
@@ -51,6 +62,10 @@ async function createGame(
 
   const transaction = [environment.db.Games.transaction.create(game)];
   for (const userId of playerIds) {
+    if (userId == FAKE_USER_ID) {
+      continue;
+    }
+
     transaction.push(
       environment.db.Users.transaction.update(
         { userId },
@@ -63,7 +78,10 @@ async function createGame(
   // Once all of the db commands are executed successfully, notify all of the
   // players that the game has begun.
 
-  const users = await userHelpers.fetchAll(environment, playerIds);
+  const users = await userHelpers.fetchAll(
+    environment,
+    playerIds.filter((id) => id !== FAKE_USER_ID)
+  );
 
   await channel.send({
     embed: {
@@ -80,26 +98,32 @@ async function createGame(
           name: 'Distribution',
           value:
             'In this game there is ' +
-            abilityHelpers.distributionText(users.length),
+            abilityHelpers.distributionText(playerIds.length),
         },
       ],
     },
   });
 
+  if (leader.userId == FAKE_USER_ID) {
+    channel.send(
+      abilityHelpers.createEmbed(leader.ability, {
+        name: 'Fake User',
+      })
+    );
+  } else {
+    const user = users.find((user) => user.id == leader.userId);
+    channel.send(
+      abilityHelpers.createEmbed(leader.ability, {
+        name: user.username,
+      })
+    );
+  }
+
   for (const user of users) {
     const ability = game.players.find(({ userId }) => userId == user.id)
       .ability;
-
     user.send(abilityHelpers.createEmbed(ability));
-
-    if (ability.types.subtype == 'Leader') {
-      channel.send(
-        abilityHelpers.createEmbed(ability, {
-          name: user.username,
-        })
-      );
-    }
   }
 }
 
-module.exports = { createGame };
+module.exports = { createGame, FAKE_USER_ID };
