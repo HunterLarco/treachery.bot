@@ -91,7 +91,7 @@ async function* assign(userIds, { notLeader }) {
     ability: pickRandom(identities.leaders)[0],
   };
 
-  const counts = distribution(users.length);
+  const counts = distribution(userIds.length);
   const pool = [
     ...pickRandom(identities.traitors, { count: counts.traitor }),
     ...pickRandom(identities.assassins, { count: counts.assassin }),

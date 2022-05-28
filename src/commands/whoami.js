@@ -33,7 +33,7 @@ module.exports = {
     message.channel.send({
       embed: {
         title: 'Who Are You?',
-        description: `${message.author.tag}, you have been privately messaged.`,
+        description: `<@${message.author.id}>, you have been privately messaged.`,
       },
     });
 
