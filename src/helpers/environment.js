@@ -20,7 +20,7 @@ async function create() {
   return {
     config,
 
-    client: new Discord.Client(),
+    client: new Discord.Client({ intents: [Discord.GatewayIntentBits.Guilds] }),
 
     server: express(),
 

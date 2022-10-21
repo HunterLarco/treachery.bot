@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const environmentHelpers = require('./helpers/environment.js');
 
 async function configureDiscordClient(environment) {
@@ -44,9 +46,9 @@ async function configureDiscordClient(environment) {
     }
   });
 
-  client.once('ready', () => {
-    client.user.setActivity(`${environment.config.bot_prefix}help`, {
-      type: 'WATCHING',
+  client.once(Discord.Events.ClientReady, () => {
+    client.user.setActivity('Treachery', {
+      type: Discord.ActivityType.Competing,
     });
     console.log('Ready!');
   });
