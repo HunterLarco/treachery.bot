@@ -7,24 +7,22 @@ function createEmbed(ability, options) {
   const { name } = options || {};
 
   return {
-    embed: {
-      title:
-        (name ? `${name} is` : 'You are') +
-        { Leader: ' the ', Assassin: ' an ', Traitor: ' a ', Guardian: ' a ' }[
-          ability.types.subtype
-        ] +
-        `${ability.types.subtype}: ${ability.name}!`,
-      description: `[View on mtgtreachery](${ability.uri})`,
-      image: {
-        url: ability.image,
-      },
-      fields: [
-        {
-          name: 'Description',
-          value: ability.text.replace(/\|/g, '\n'),
-        },
-      ],
+    title:
+      (name ? `${name} is` : 'You are') +
+      { Leader: ' the ', Assassin: ' an ', Traitor: ' a ', Guardian: ' a ' }[
+        ability.types.subtype
+      ] +
+      `${ability.types.subtype}: ${ability.name}!`,
+    description: `[View on mtgtreachery](${ability.uri})`,
+    image: {
+      url: ability.image,
     },
+    fields: [
+      {
+        name: 'Description',
+        value: ability.text.replace(/\|/g, '\n'),
+      },
+    ],
   };
 }
 

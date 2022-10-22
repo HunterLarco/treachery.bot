@@ -10,6 +10,7 @@ async function create() {
     healthcheck_port: process.env.HEALTHCHECK_PORT || 3000,
     bot_prefix: process.env.BOT_PREFIX || '~',
     bot_token: process.env.BOT_TOKEN,
+    bot_client_id: process.env.BOT_CLIENT_ID,
     debug: !!process.env.DEBUG,
   };
 
@@ -20,7 +21,12 @@ async function create() {
   return {
     config,
 
-    client: new Discord.Client({ intents: [Discord.GatewayIntentBits.Guilds] }),
+    discord: {
+      client: new Discord.Client({
+        intents: [Discord.GatewayIntentBits.Guilds],
+      }),
+      rest: new Discord.REST({ version: '10' }).setToken(config.bot_token),
+    },
 
     server: express(),
 

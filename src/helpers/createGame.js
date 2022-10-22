@@ -8,24 +8,28 @@ const FAKE_USER_ID = Symbol('Fake User ID');
 
 async function createGame(
   environment,
-  { channel, actor, playerIds, notLeaderPlayerIds }
+  { interaction, actor, playerIds, notLeaderPlayerIds }
 ) {
   if (playerIds.length < 4 || playerIds.length > 8) {
-    channel.send({
-      embed: {
-        title: 'Treachery Failed To Start',
-        description: 'Treachery requires 4-8 players.',
-      },
+    interaction.reply({
+      embeds: [
+        {
+          title: 'Treachery Failed To Start',
+          description: 'Treachery requires 4-8 players.',
+        },
+      ],
     });
     return;
   }
 
   if (playerIds.length - notLeaderPlayerIds.size == 0) {
-    channel.send({
-      embed: {
-        title: 'Treachery Failed To Start',
-        description: 'At least one player must be willing to be the leader.',
-      },
+    interaction.reply({
+      embeds: [
+        {
+          title: 'Treachery Failed To Start',
+          description: 'At least one player must be willing to be the leader.',
+        },
+      ],
     });
     return;
   }
@@ -83,46 +87,46 @@ async function createGame(
     playerIds.filter((id) => id !== FAKE_USER_ID)
   );
 
-  await channel.send({
-    embed: {
-      title: 'Treachery Game Starting!',
-      description:
-        `The game has been started by <@${actor.id}>. All of the ` +
-        'below players will be privately messaged a role.',
-      fields: [
-        {
-          name: 'Players',
-          value: users.map((user) => `<@${user.id}>`).join('\n'),
-        },
-        {
-          name: 'Distribution',
-          value:
-            'In this game there is ' +
-            abilityHelpers.distributionText(playerIds.length),
-        },
-      ],
-    },
-  });
-
+  let leaderEmbed;
   if (leader.userId == FAKE_USER_ID) {
-    channel.send(
-      abilityHelpers.createEmbed(leader.ability, {
-        name: 'Fake User',
-      })
-    );
+    leaderEmbed = abilityHelpers.createEmbed(leader.ability, {
+      name: 'Fake User',
+    });
   } else {
     const user = users.find((user) => user.id == leader.userId);
-    channel.send(
-      abilityHelpers.createEmbed(leader.ability, {
-        name: user.username,
-      })
-    );
+    leaderEmbed = abilityHelpers.createEmbed(leader.ability, {
+      name: user.username,
+    });
   }
+
+  await interaction.reply({
+    embeds: [
+      {
+        title: 'Treachery Game Starting!',
+        description:
+          `The game has been started by <@${actor.id}>. All of the ` +
+          'below players will be privately messaged a role.',
+        fields: [
+          {
+            name: 'Players',
+            value: users.map((user) => `<@${user.id}>`).join('\n'),
+          },
+          {
+            name: 'Distribution',
+            value:
+              'In this game there is ' +
+              abilityHelpers.distributionText(playerIds.length),
+          },
+        ],
+      },
+      leaderEmbed,
+    ],
+  });
 
   for (const user of users) {
     const ability = game.players.find(({ userId }) => userId == user.id)
       .ability;
-    user.send(abilityHelpers.createEmbed(ability));
+    user.send({ embeds: [abilityHelpers.createEmbed(ability)] });
   }
 }
 
