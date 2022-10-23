@@ -1,4 +1,4 @@
-const abilityHelpers = require('../helpers/ability.js');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
 
 async function replyNotInAGame(interaction) {
   await interaction.editReply({
@@ -37,7 +37,7 @@ module.exports = {
 
     await interaction.editReply({
       embeds: [
-        abilityHelpers.createEmbed(ability, {
+        generateAbilityEmbed(ability, {
           name: interaction.user.username,
         }),
       ],

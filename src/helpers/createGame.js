@@ -5,37 +5,14 @@ const abilityHelpers = require('./ability.js');
 const userHelpers = require('./users.js');
 const { FAKE_USER_ID } = require('../data/fakeUserId.js');
 
-const { generateAbilityEmbed } = require('../embeds/ability.js');
-
-async function createGame(
-  environment,
-  { interaction, actor, playerIds, notLeaderPlayerIds }
-) {
+async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
   if (playerIds.length < 4 || playerIds.length > 8) {
-    interaction.reply({
-      embeds: [
-        {
-          title: 'Treachery Failed To Start',
-          description: 'Treachery requires 4-8 players.',
-        },
-      ],
-    });
-    return;
+    throw 'Treachery requires 4-8 players.';
+  } else if (playerIds.length == notLeaderPlayerIds.size) {
+    throw 'At least one player must be willing to be the leader.';
   }
 
-  if (playerIds.length - notLeaderPlayerIds.size == 0) {
-    interaction.reply({
-      embeds: [
-        {
-          title: 'Treachery Failed To Start',
-          description: 'At least one player must be willing to be the leader.',
-        },
-      ],
-    });
-    return;
-  }
-
-  // Create the `Game` database item.
+  /// Create the `Game` database item.
 
   const game = {
     key: uuidv4(),
@@ -45,13 +22,11 @@ async function createGame(
     expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
   };
 
-  let leader;
+  const players = [];
   for await (const { userId, ability } of abilityHelpers.assign(playerIds, {
     notLeader: notLeaderPlayerIds,
   })) {
-    if (ability.types.subtype == 'Leader') {
-      leader = { userId, ability };
-    }
+    players.push({ userId, ability });
 
     if (userId == FAKE_USER_ID) {
       continue;
@@ -63,7 +38,7 @@ async function createGame(
     });
   }
 
-  // Write the game database item and update all players' current game.
+  /// Write the game database item and update all players' current game.
 
   const transaction = [environment.db.Games.transaction.create(game)];
   for (const userId of playerIds) {
@@ -80,31 +55,11 @@ async function createGame(
   }
   await dynamoose.transaction(transaction);
 
-  // Once all of the db commands are executed successfully, notify all of the
-  // players that the game has begun.
+  /// Once all of the db commands are executed successfully, return the ability assignments.
 
-  const users = await userHelpers.fetchAll(
-    environment,
-    playerIds.filter((id) => id !== FAKE_USER_ID)
-  );
-
-  let leaderEmbed;
-  if (leader.userId == FAKE_USER_ID) {
-    leaderEmbed = generateAbilityEmbed(leader.ability, { name: 'Fake User' });
-  } else {
-    const user = users.find((user) => user.id == leader.userId);
-    leaderEmbed = generateAbilityEmbed(leader.ability, { name: user.username });
-  }
-
-  await interaction.followUp({
-    embeds: [leaderEmbed],
-  });
-
-  for (const user of users) {
-    const ability = game.players.find(({ userId }) => userId == user.id)
-      .ability;
-    user.send({ embeds: [generateAbilityEmbed(ability)] });
-  }
+  return {
+    abilities: players,
+  };
 }
 
 module.exports = { createGame };

@@ -280,7 +280,9 @@ class GameCreationManager {
             .setLabel('Start')
             .setStyle(ButtonStyle.Success)
             .setDisabled(
-              this.readyUserIds_.size < 4 || this.readyUserIds_.size > 8
+              this.readyUserIds_.size < 4 ||
+                this.readyUserIds_.size > 8 ||
+                this.notLeaderUserIds_.size == this.readyUserIds_.size
             ),
           new ButtonBuilder()
             .setCustomId('cancel')
