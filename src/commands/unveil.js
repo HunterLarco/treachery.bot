@@ -1,40 +1,45 @@
-const abilityHelpers = require('../helpers/ability.js');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
 
-function replyNotInAGame(message) {
-  message.channel.send({
+async function replyNotInAGame(interaction) {
+  await interaction.editReply({
     embed: {
       title: 'Nothing To Reveal',
-      description: `<@${message.author.id}>, you are not currently in a game.`,
+      description: `<@${interaction.user.id}>, you are not currently in a game.`,
     },
   });
 }
 
 module.exports = {
   name: 'unveil',
-  alias: ['reveal'],
   description: 'Reveals your current role to the channel.',
-  async execute(environment, message, args) {
-    const user = await environment.db.Users.get({ userId: message.author.id });
+  async execute(environment, interaction) {
+    await interaction.deferReply();
+
+    const user = await environment.db.Users.get({
+      userId: interaction.user.id,
+    });
 
     if (!user || !user.currentGame) {
-      replyNotInAGame(message);
+      await replyNotInAGame(interaction);
       return;
     }
 
     const game = await environment.db.Games.get({ key: user.currentGame });
     if (!game) {
-      replyNotInAGame(message);
+      await replyNotInAGame(interaction);
       return;
     }
 
     const { ability } = game.players.find(
-      (player) => player.userId == message.author.id
+      (player) => player.userId == interaction.user.id
     );
 
-    message.channel.send(
-      abilityHelpers.createEmbed(ability, {
-        name: message.author.username,
-      })
-    );
+    await interaction.editReply({
+      embeds: [
+        generateAbilityEmbed(ability, {
+          name: interaction.user.username,
+        }),
+      ],
+    });
   },
 };

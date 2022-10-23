@@ -2,35 +2,16 @@ const dynamoose = require('dynamoose');
 const { v4: uuidv4 } = require('uuid');
 
 const abilityHelpers = require('./ability.js');
-const userHelpers = require('./users.js');
+const { FAKE_USER_ID } = require('../data/fakeUserId.js');
 
-const FAKE_USER_ID = Symbol('Fake User ID');
-
-async function createGame(
-  environment,
-  { channel, actor, playerIds, notLeaderPlayerIds }
-) {
+async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
   if (playerIds.length < 4 || playerIds.length > 8) {
-    channel.send({
-      embed: {
-        title: 'Treachery Failed To Start',
-        description: 'Treachery requires 4-8 players.',
-      },
-    });
-    return;
+    throw 'Treachery requires 4-8 players.';
+  } else if (playerIds.length == notLeaderPlayerIds.size) {
+    throw 'At least one player must be willing to be the leader.';
   }
 
-  if (playerIds.length - notLeaderPlayerIds.size == 0) {
-    channel.send({
-      embed: {
-        title: 'Treachery Failed To Start',
-        description: 'At least one player must be willing to be the leader.',
-      },
-    });
-    return;
-  }
-
-  // Create the `Game` database item.
+  /// Create the `Game` database item.
 
   const game = {
     key: uuidv4(),
@@ -40,13 +21,11 @@ async function createGame(
     expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
   };
 
-  let leader;
+  const players = [];
   for await (const { userId, ability } of abilityHelpers.assign(playerIds, {
     notLeader: notLeaderPlayerIds,
   })) {
-    if (ability.types.subtype == 'Leader') {
-      leader = { userId, ability };
-    }
+    players.push({ userId, ability });
 
     if (userId == FAKE_USER_ID) {
       continue;
@@ -58,7 +37,7 @@ async function createGame(
     });
   }
 
-  // Write the game database item and update all players' current game.
+  /// Write the game database item and update all players' current game.
 
   const transaction = [environment.db.Games.transaction.create(game)];
   for (const userId of playerIds) {
@@ -75,55 +54,11 @@ async function createGame(
   }
   await dynamoose.transaction(transaction);
 
-  // Once all of the db commands are executed successfully, notify all of the
-  // players that the game has begun.
+  /// Once all of the db commands are executed successfully, return the ability assignments.
 
-  const users = await userHelpers.fetchAll(
-    environment,
-    playerIds.filter((id) => id !== FAKE_USER_ID)
-  );
-
-  await channel.send({
-    embed: {
-      title: 'Treachery Game Starting!',
-      description:
-        `The game has been started by <@${actor.id}>. All of the ` +
-        'below players will be privately messaged a role.',
-      fields: [
-        {
-          name: 'Players',
-          value: users.map((user) => `<@${user.id}>`).join('\n'),
-        },
-        {
-          name: 'Distribution',
-          value:
-            'In this game there is ' +
-            abilityHelpers.distributionText(playerIds.length),
-        },
-      ],
-    },
-  });
-
-  if (leader.userId == FAKE_USER_ID) {
-    channel.send(
-      abilityHelpers.createEmbed(leader.ability, {
-        name: 'Fake User',
-      })
-    );
-  } else {
-    const user = users.find((user) => user.id == leader.userId);
-    channel.send(
-      abilityHelpers.createEmbed(leader.ability, {
-        name: user.username,
-      })
-    );
-  }
-
-  for (const user of users) {
-    const ability = game.players.find(({ userId }) => userId == user.id)
-      .ability;
-    user.send(abilityHelpers.createEmbed(ability));
-  }
+  return {
+    abilities: players,
+  };
 }
 
-module.exports = { createGame, FAKE_USER_ID };
+module.exports = { createGame };

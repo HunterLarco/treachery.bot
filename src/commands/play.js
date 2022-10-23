@@ -1,106 +1,328 @@
+const {
+  ComponentType,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require('discord.js');
+
 const { createGame } = require('../helpers/createGame.js');
 
-const Emojis = {
-  ThumbsUp: '👍',
-  Rocket: '🚀',
-  Stop: '🛑',
-  NotLeader: '🙅',
-};
+const { generateGameSetupEmbed } = require('../embeds/gameSetup.js');
+const { generateCanceledGameEmbed } = require('../embeds/gameCanceled.js');
+const { generateGameStartedEmbed } = require('../embeds/gameStarted.js');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
+
+function generateJoinedMessage(canBeLeader) {
+  return {
+    content: `You've joined the game!`,
+    ephemeral: true,
+    components: [
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId('leave')
+          .setLabel('Leave Game')
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
+          .setCustomId('toggle_leader')
+          .setLabel(
+            canBeLeader ? `I don't want to be the leader` : `Enable Leader`
+          )
+          .setStyle(ButtonStyle.Secondary)
+      ),
+    ],
+  };
+}
+
+class GameCreationManager {
+  constructor(environment) {
+    this.environment_ = environment;
+
+    this.readyUserIds_ = new Set();
+    this.notLeaderUserIds_ = new Set();
+
+    this.frozen_ = false;
+
+    this.ui_ = {
+      setup: null,
+      join: new Map(),
+    };
+  }
+
+  /// Setup Message Interaction Handling
+
+  async setupGame(interaction) {
+    if (this.ui_.setup) {
+      throw 'The game has already been setup';
+    } else if (this.frozen_) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    const message = await interaction.reply(this.generateGameSetupMessage());
+    const collector = message.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      idle: 300000,
+    });
+    collector.on('collect', (i) => this.buttonTrampoline(i));
+
+    this.ui_.setup = {
+      interaction,
+      collector,
+    };
+  }
+
+  async joinGame(interaction) {
+    if (this.frozen_ || this.readyUserIds_.has(interaction.user.id)) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    this.readyUserIds_.add(interaction.user.id);
+
+    await Promise.all([
+      this.ui_.setup.interaction.editReply(this.generateGameSetupMessage()),
+      interaction.reply(generateJoinedMessage(true)),
+    ]);
+
+    const message = await interaction.fetchReply();
+    const collector = message.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      idle: 300000,
+    });
+    collector.on('collect', (i) => this.buttonTrampoline(i));
+
+    this.ui_.join.set(interaction.user.id, {
+      interaction,
+      collector,
+    });
+  }
+
+  async cancelGame(interaction) {
+    if (this.frozen_) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    this.frozen_ = true;
+
+    /// Stop active collectors.
+
+    for (const { collector } of this.ui_.join.values()) {
+      collector.stop();
+    }
+    this.ui_.setup.collector.stop();
+
+    /// Update all embeds.
+
+    const promises = [
+      interaction.update({
+        embeds: [generateCanceledGameEmbed(interaction.user.id)],
+        components: [],
+      }),
+    ];
+    for (const { interaction: joinInteraction } of this.ui_.join.values()) {
+      promises.push(
+        joinInteraction.editReply({
+          content: `The game was canceled by <@${interaction.user.id}>.`,
+          components: [],
+        })
+      );
+    }
+    await Promise.all(promises);
+
+    /// Cleanup the UI elements
+
+    this.ui_.setup = null;
+    this.ui_.join = new Map();
+  }
+
+  async startGame(interaction) {
+    if (this.frozen_) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    this.frozen_ = true;
+
+    /// Stop active collectors.
+
+    for (const { collector } of this.ui_.join.values()) {
+      collector.stop();
+    }
+    this.ui_.setup.collector.stop();
+
+    /// Create the database game document
+
+    const { abilities } = await createGame(this.environment_, {
+      playerIds: [...this.readyUserIds_],
+      notLeaderPlayerIds: new Set(),
+    });
+
+    const leader = abilities.find(
+      ({ ability }) => ability.types.subtype == 'Leader'
+    );
+
+    /// Update all embeds.
+
+    const promises = [
+      interaction.update({
+        embeds: [
+          generateGameStartedEmbed(interaction.user.id, [
+            ...this.readyUserIds_,
+          ]),
+          generateAbilityEmbed(leader.ability, {
+            name: this.ui_.join.get(leader.userId).interaction.user.username,
+          }),
+        ],
+        components: [],
+      }),
+    ];
+    for (const { interaction: joinInteraction } of this.ui_.join.values()) {
+      promises.push(
+        joinInteraction.editReply({
+          content:
+            `The game has started by <@${interaction.user.id}>! Check ` +
+            `your dm's for your role.`,
+          components: [],
+        })
+      );
+      promises.push(
+        joinInteraction.user.send({
+          embeds: [
+            generateAbilityEmbed(
+              abilities.find(({ userId }) => (userId = joinInteraction.user.id))
+                .ability
+            ),
+          ],
+        })
+      );
+    }
+    await Promise.all(promises);
+
+    /// Cleanup the UI elements
+
+    this.ui_.setup = null;
+    this.ui_.join = new Map();
+  }
+
+  /// Join Message Interaction Handling
+
+  async leaveGame(interaction) {
+    if (this.frozen_) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    this.readyUserIds_.delete(interaction.user.id);
+    this.notLeaderUserIds_.delete(interaction.user.id);
+
+    await Promise.all([
+      interaction.update({
+        content: `You've been removed from the game.`,
+        components: [],
+      }),
+      this.ui_.setup.interaction.editReply(this.generateGameSetupMessage()),
+    ]);
+
+    // Stop the button collection on the joined message.
+    this.ui_.join.get(interaction.user.id).collector.stop();
+
+    // Cleanup the ui element.
+    this.ui_.join.delete(interaction.user.id);
+  }
+
+  async toggleLeader(interaction) {
+    if (this.frozen_) {
+      await interaction.deferUpdate();
+      return;
+    }
+
+    let canBeLeader;
+    if (this.notLeaderUserIds_.has(interaction.user.id)) {
+      this.notLeaderUserIds_.delete(interaction.user.id);
+      canBeLeader = true;
+    } else {
+      this.notLeaderUserIds_.add(interaction.user.id);
+      canBeLeader = false;
+    }
+
+    await Promise.all([
+      interaction.update(generateJoinedMessage(canBeLeader)),
+      this.ui_.setup.interaction.editReply(this.generateGameSetupMessage()),
+    ]);
+  }
+
+  /// Button Trampoline
+
+  async buttonTrampoline(interaction) {
+    switch (interaction.customId) {
+      case 'join':
+        await this.joinGame(interaction);
+        return;
+      case 'start':
+        await this.startGame(interaction);
+        return;
+      case 'cancel':
+        await this.cancelGame(interaction);
+        return;
+      case 'toggle_leader':
+        await this.toggleLeader(interaction);
+        return;
+      case 'leave':
+        await this.leaveGame(interaction);
+        return;
+    }
+
+    console.error(`Received unexpected interaction "${interaction.customId}".`);
+  }
+
+  /// Message Generators
+
+  createReadyPlayerInfos() {
+    const infos = [];
+    for (const id of this.readyUserIds_) {
+      infos.push({
+        id,
+        labels: this.notLeaderUserIds_.has(id) ? ['Not Leader'] : [],
+      });
+    }
+    return infos;
+  }
+
+  generateGameSetupMessage() {
+    return {
+      embeds: [generateGameSetupEmbed(this.createReadyPlayerInfos())],
+      components: [
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId('join')
+            .setLabel('Join')
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(this.readyUserIds_.size > 8),
+          new ButtonBuilder()
+            .setCustomId('start')
+            .setLabel('Start')
+            .setStyle(ButtonStyle.Success)
+            .setDisabled(
+              this.readyUserIds_.size < 4 ||
+                this.readyUserIds_.size > 8 ||
+                this.notLeaderUserIds_.size == this.readyUserIds_.size
+            ),
+          new ButtonBuilder()
+            .setCustomId('cancel')
+            .setLabel('Cancel')
+            .setStyle(ButtonStyle.Danger)
+        ),
+      ],
+    };
+  }
+}
 
 module.exports = {
   name: 'play',
   description: 'Starts a new game of treachery.',
-  async execute(environment, message, args) {
-    const readyUserIds = new Set();
-    const notLeaderUserIds = new Set();
-
-    const createSetupMessage = () => ({
-      embed: {
-        title: 'Treachery Game Setup',
-        description:
-          `Click ${Emojis.ThumbsUp} to join this game.\n` +
-          `Click ${Emojis.Rocket} to start this game.\n` +
-          `Click ${Emojis.NotLeader} if you don't want to be the leader.\n` +
-          `Click ${Emojis.Stop} to cancel this game.`,
-        fields: readyUserIds.size
-          ? [
-              {
-                name: 'Ready Players',
-                value: [...readyUserIds]
-                  .map(
-                    (userId) =>
-                      `<@${userId}>` +
-                      (notLeaderUserIds.has(userId) ? ' (not leader)' : '')
-                  )
-                  .join('\n'),
-              },
-            ]
-          : [],
-      },
-    });
-
-    const setupMessage = await message.channel.send(createSetupMessage());
-
-    setupMessage.react(Emojis.ThumbsUp);
-    setupMessage.react(Emojis.Rocket);
-    setupMessage.react(Emojis.NotLeader);
-    setupMessage.react(Emojis.Stop);
-
-    const collector = setupMessage.createReactionCollector(
-      (reaction, user) => user.id != setupMessage.author.id,
-      { idle: 300000, dispose: true }
-    );
-
-    collector.on('collect', (reaction, user) => {
-      switch (reaction.emoji.name) {
-        case Emojis.ThumbsUp:
-          readyUserIds.add(user.id);
-          setupMessage.edit(createSetupMessage());
-          break;
-        case Emojis.Rocket:
-          collector.stop();
-          createGame(environment, {
-            channel: message.channel,
-            actor: user,
-            playerIds: [...readyUserIds],
-            notLeaderPlayerIds: notLeaderUserIds,
-          }).catch((error) => {
-            console.error('Failed to start game with error:', error);
-            message.channel.send({
-              embed: {
-                title: 'Failed To Start Game',
-                description: error.toString(),
-              },
-            });
-          });
-          break;
-        case Emojis.NotLeader:
-          notLeaderUserIds.add(user.id);
-          setupMessage.edit(createSetupMessage());
-          break;
-        case Emojis.Stop:
-          collector.stop();
-          message.channel.send({
-            embed: {
-              title: 'Treachery Game Cancelled',
-              description: `The game was cancelled by ${user.tag}`,
-            },
-          });
-          break;
-      }
-    });
-
-    collector.on('remove', (reaction, user) => {
-      switch (reaction.emoji.name) {
-        case Emojis.ThumbsUp:
-          readyUserIds.delete(user.id);
-          setupMessage.edit(createSetupMessage());
-          break;
-        case Emojis.NotLeader:
-          notLeaderUserIds.delete(user.id);
-          setupMessage.edit(createSetupMessage());
-          break;
-      }
-    });
+  async execute(environment, interaction) {
+    const manager = new GameCreationManager(environment);
+    await manager.setupGame(interaction);
   },
 };

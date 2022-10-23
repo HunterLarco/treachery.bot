@@ -1,4 +1,4 @@
-FROM node:14.1.0
+FROM node:16.9.0
 ENV NODE_ENV=production
 
 ADD src /bot

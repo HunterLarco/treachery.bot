@@ -1,52 +1,56 @@
+const Discord = require('discord.js');
+
 const environmentHelpers = require('./helpers/environment.js');
 
+async function publishGuildCommands(environment) {
+  const { discord, commands, config } = environment;
+
+  const commandsJson = commands.map((command) =>
+    new Discord.SlashCommandBuilder()
+      .setName(command.name)
+      .setDescription(command.description)
+      .toJSON()
+  );
+
+  await discord.rest.put(
+    Discord.Routes.applicationCommands(config.bot_client_id),
+    { body: commandsJson }
+  );
+}
+
 async function configureDiscordClient(environment) {
-  const { client, commands } = environment;
+  const { discord, commands } = environment;
 
   for (const command of commands) {
     console.log(`Loaded command '${command.name}'`);
-    if (command.alias) {
-      console.log(`  Alias: ${command.alias.join(', ')}`);
-    }
   }
 
-  client.on('message', async (message) => {
-    if (!message.content.startsWith(environment.config.bot_prefix)) {
+  discord.client.on(Discord.Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isChatInputCommand()) {
       return;
     }
 
-    const args = message.content
-      .slice(environment.config.bot_prefix.length)
-      .trim()
-      .split(/ +/);
-    const commandName = args[0];
-
     const command = commands.find(
-      (command) =>
-        command.name == commandName ||
-        (command.alias && command.alias.some((alias) => alias == commandName))
+      (command) => command.name == interaction.commandName
     );
 
     if (!command) {
+      console.error(
+        `No command matching ${interaction.commandName} was found.`
+      );
       return;
     }
 
     try {
-      await command.execute(environment, message, args);
+      await command.execute(environment, interaction);
     } catch (error) {
       console.log('Failed to run command with error:', error);
-      message.reply({
-        embed: {
-          title: 'Failed To Run Command',
-          description: error.toString(),
-        },
-      });
     }
   });
 
-  client.once('ready', () => {
-    client.user.setActivity(`${environment.config.bot_prefix}help`, {
-      type: 'WATCHING',
+  discord.client.once(Discord.Events.ClientReady, () => {
+    discord.client.user.setActivity('Treachery', {
+      type: Discord.ActivityType.Competing,
     });
     console.log('Ready!');
   });
@@ -55,7 +59,7 @@ async function configureDiscordClient(environment) {
 async function configureHealthCheck(environment) {
   return new Promise((resolve, reject) => {
     environment.server.get('/healthz', (request, response) => {
-      if (environment.client.readyTimestamp != null) {
+      if (environment.discord.client.readyTimestamp != null) {
         response.send('ok');
       } else {
         response.status(503).send('not ready');
@@ -73,9 +77,10 @@ async function configureHealthCheck(environment) {
 
 async function main() {
   const environment = await environmentHelpers.create();
+  await publishGuildCommands(environment);
   await configureHealthCheck(environment);
   await configureDiscordClient(environment);
-  environment.client.login(environment.config.bot_token);
+  environment.discord.client.login(environment.config.bot_token);
 }
 
 if (require.main === module) {

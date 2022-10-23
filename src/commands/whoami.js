@@ -1,42 +1,43 @@
-const abilityHelpers = require('../helpers/ability.js');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
 
-function replyNotInAGame(message) {
-  message.channel.send({
+async function replyNotInAGame(interaction) {
+  await interaction.editReply({
     embed: {
       title: 'Who Are You?',
-      description: `<@${message.author.id}>, you are not currently in a game.`,
+      description: `<@${interaction.user.id}>, you are not currently in a game.`,
     },
+    ephemeral: true,
   });
 }
 
 module.exports = {
   name: 'whoami',
   description: 'Privately messages you your current role.',
-  async execute(environment, message, args) {
-    const user = await environment.db.Users.get({ userId: message.author.id });
+  async execute(environment, interaction) {
+    await interaction.deferReply({ ephemeral: true });
+
+    const user = await environment.db.Users.get({
+      userId: interaction.user.id,
+    });
 
     if (!user || !user.currentGame) {
-      replyNotInAGame(message);
+      await replyNotInAGame(interaction);
       return;
     }
 
     const game = await environment.db.Games.get({ key: user.currentGame });
     if (!game) {
-      replyNotInAGame(message);
+      await replyNotInAGame(interaction);
       return;
     }
 
     const { ability } = game.players.find(
-      (player) => player.userId == message.author.id
+      (player) => player.userId == interaction.user.id
     );
 
-    message.channel.send({
-      embed: {
-        title: 'Who Are You?',
-        description: `<@${message.author.id}>, you have been privately messaged.`,
-      },
+    await interaction.editReply({
+      embeds: [generateAbilityEmbed(ability)],
+      ephemeral: true,
     });
-
-    message.author.send(abilityHelpers.createEmbed(ability));
   },
 };

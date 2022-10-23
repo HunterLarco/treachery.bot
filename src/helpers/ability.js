@@ -3,31 +3,6 @@ const shuffleArray = require('shuffle-array');
 
 const { IdentityDataSource } = require('../data/MTGTreacheryDataSource.js');
 
-function createEmbed(ability, options) {
-  const { name } = options || {};
-
-  return {
-    embed: {
-      title:
-        (name ? `${name} is` : 'You are') +
-        { Leader: ' the ', Assassin: ' an ', Traitor: ' a ', Guardian: ' a ' }[
-          ability.types.subtype
-        ] +
-        `${ability.types.subtype}: ${ability.name}!`,
-      description: `[View on mtgtreachery](${ability.uri})`,
-      image: {
-        url: ability.image,
-      },
-      fields: [
-        {
-          name: 'Description',
-          value: ability.text.replace(/\|/g, '\n'),
-        },
-      ],
-    },
-  };
-}
-
 function distribution(players) {
   if (players < 4 || players > 8) {
     throw 'Treachery requires 4-8 players';
@@ -55,28 +30,6 @@ function distribution(players) {
   }
 
   return counts;
-}
-
-function distributionText(players) {
-  const counts = distribution(players);
-
-  let text = '1 leader, ';
-
-  if (counts.traitor == 1) {
-    text += '1 traitor, ';
-  } else {
-    text += `${counts.traitor} traitors, `;
-  }
-
-  text += `${counts.assassin} assassins, and `;
-
-  if (counts.guardian == 1) {
-    text += '1 guardian, ';
-  } else {
-    text += `${counts.guardian} guardians, `;
-  }
-
-  return text;
 }
 
 async function* assign(userIds, { notLeader }) {
@@ -109,8 +62,6 @@ async function* assign(userIds, { notLeader }) {
 }
 
 module.exports = {
-  createEmbed,
   distribution,
-  distributionText,
   assign,
 };
