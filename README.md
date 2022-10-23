@@ -56,4 +56,4 @@ npm run lint:fix
 Please submit all contributions via pull requests where your branch matches the
 pattern `<username>/<branch-name>`.
 
-[bot-install]: https://discord.com/oauth2/authorize?client_id=777746848123191296&scope=bot
+[bot-install]: https://discord.com/api/oauth2/authorize?client_id=777746848123191296&permissions=2048&scope=applications.commands%20bot
