@@ -6,11 +6,11 @@ const {
 } = require('discord.js');
 
 const { createGame } = require('../helpers/createGame.js');
-const abilityHelpers = require('../helpers/ability.js');
 
 const { generateGameSetupEmbed } = require('../embeds/gameSetup.js');
 const { generateCanceledGameEmbed } = require('../embeds/gameCanceled.js');
 const { generateGameStartedEmbed } = require('../embeds/gameStarted.js');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
 
 function generateJoinedMessage(canBeLeader) {
   return {
@@ -151,6 +151,17 @@ class GameCreationManager {
     }
     this.ui_.setup.collector.stop();
 
+    /// Create the database game document
+
+    const { abilities } = await createGame(environment, {
+      playerIds: [...this.readyUserIds_],
+      notLeaderPlayerIds: new Set(),
+    });
+
+    const leader = abilities.find(
+      ({ ability }) => ability.types.subtype == 'Leader'
+    );
+
     /// Update all embeds.
 
     const promises = [
@@ -159,6 +170,9 @@ class GameCreationManager {
           generateGameStartedEmbed(interaction.user.id, [
             ...this.readyUserIds_,
           ]),
+          generateAbilityEmbed(leader.ability, {
+            name: this.ui_.join.get(leader.userId).interaction.user.username,
+          }),
         ],
         components: [],
       }),
@@ -170,6 +184,16 @@ class GameCreationManager {
             `The game has started by <@${interaction.user.id}>! Check ` +
             `your dm's for your role.`,
           components: [],
+        })
+      );
+      promises.push(
+        joinInteraction.user.send({
+          embeds: [
+            generateAbilityEmbed(
+              abilities.find(({ userId }) => (userId = joinInteraction.user.id))
+                .ability
+            ),
+          ],
         })
       );
     }
