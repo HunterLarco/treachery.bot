@@ -23,5 +23,5 @@ jobs:
           repo: treachery-bot
           region: us-east-1
           tags: latest,${{ github.sha }}
-          build_args: 'BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }} BOT_CLIENT_ID=${{ secrets.DISCORD_BOT_CLIENT_ID}}'
+          build_args: 'BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}, BOT_CLIENT_ID=${{ secrets.DISCORD_BOT_CLIENT_ID}}'
           daemon_off: false
