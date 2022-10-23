@@ -11,7 +11,6 @@ async function replyNotInAGame(interaction) {
 
 module.exports = {
   name: 'unveil',
-  alias: ['reveal'],
   description: 'Reveals your current role to the channel.',
   async execute(environment, interaction) {
     await interaction.deferReply();

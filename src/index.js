@@ -23,44 +23,7 @@ async function configureDiscordClient(environment) {
 
   for (const command of commands) {
     console.log(`Loaded command '${command.name}'`);
-    if (command.alias) {
-      console.log(`  Alias: ${command.alias.join(', ')}`);
-    }
   }
-
-  discord.client.on('message', async (message) => {
-    if (!message.content.startsWith(environment.config.bot_prefix)) {
-      return;
-    }
-
-    const args = message.content
-      .slice(environment.config.bot_prefix.length)
-      .trim()
-      .split(/ +/);
-    const commandName = args[0];
-
-    const command = commands.find(
-      (command) =>
-        command.name == commandName ||
-        (command.alias && command.alias.some((alias) => alias == commandName))
-    );
-
-    if (!command) {
-      return;
-    }
-
-    try {
-      await command.execute(environment, message, args);
-    } catch (error) {
-      console.log('Failed to run command with error:', error);
-      message.reply({
-        embed: {
-          title: 'Failed To Run Command',
-          description: error.toString(),
-        },
-      });
-    }
-  });
 
   discord.client.on(Discord.Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) {
@@ -85,7 +48,7 @@ async function configureDiscordClient(environment) {
       await command.execute(environment, interaction);
     } catch (error) {
       console.log('Failed to run command with error:', error);
-      interaction.reply({
+      await interaction.reply({
         embeds: [
           {
             title: 'Failed To Run Command',
