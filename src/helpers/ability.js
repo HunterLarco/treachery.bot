@@ -4,11 +4,9 @@ const shuffleArray = require('shuffle-array');
 const { IdentityDataSource } = require('../data/MTGTreacheryDataSource.js');
 
 function distribution(players) {
-  /*
   if (players < 4 || players > 8) {
     throw 'Treachery requires 4-8 players';
   }
-  */
 
   const counts = {
     leader: 1,

@@ -153,7 +153,7 @@ class GameCreationManager {
 
     /// Create the database game document
 
-    const { abilities } = await createGame(environment, {
+    const { abilities } = await createGame(this.environment_, {
       playerIds: [...this.readyUserIds_],
       notLeaderPlayerIds: new Set(),
     });
