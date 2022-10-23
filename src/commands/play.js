@@ -7,11 +7,10 @@ const {
 
 const { createGame } = require('../helpers/createGame.js');
 const abilityHelpers = require('../helpers/ability.js');
-const {
-  generateGameSetupEmbed,
-  generateCanceledGameEmbed,
-  generateGameStartedEmbed,
-} = require('../embeds/gameSetup.js');
+
+const { generateGameSetupEmbed } = require('../embeds/gameSetup.js');
+const { generateCanceledGameEmbed } = require('../embeds/gameCanceled.js');
+const { generateGameStartedEmbed } = require('../embeds/gameStarted.js');
 
 function generateJoinedMessage(canBeLeader) {
   return {
