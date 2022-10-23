@@ -3,8 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 
 const abilityHelpers = require('./ability.js');
 const userHelpers = require('./users.js');
+const { FAKE_USER_ID } = require('../data/fakeUserId.js');
 
-const FAKE_USER_ID = Symbol('Fake User ID');
+const { generateAbilityEmbed } = require('../embeds/ability.js');
 
 async function createGame(
   environment,
@@ -89,45 +90,21 @@ async function createGame(
 
   let leaderEmbed;
   if (leader.userId == FAKE_USER_ID) {
-    leaderEmbed = abilityHelpers.createEmbed(leader.ability, {
-      name: 'Fake User',
-    });
+    leaderEmbed = generateAbilityEmbed(leader.ability, { name: 'Fake User' });
   } else {
     const user = users.find((user) => user.id == leader.userId);
-    leaderEmbed = abilityHelpers.createEmbed(leader.ability, {
-      name: user.username,
-    });
+    leaderEmbed = generateAbilityEmbed(leader.ability, { name: user.username });
   }
 
-  await interaction.reply({
-    embeds: [
-      {
-        title: 'Treachery Game Starting!',
-        description:
-          `The game has been started by <@${actor.id}>. All of the ` +
-          'below players will be privately messaged a role.',
-        fields: [
-          {
-            name: 'Players',
-            value: users.map((user) => `<@${user.id}>`).join('\n'),
-          },
-          {
-            name: 'Distribution',
-            value:
-              'In this game there is ' +
-              abilityHelpers.distributionText(playerIds.length),
-          },
-        ],
-      },
-      leaderEmbed,
-    ],
+  await interaction.followUp({
+    embeds: [leaderEmbed],
   });
 
   for (const user of users) {
     const ability = game.players.find(({ userId }) => userId == user.id)
       .ability;
-    user.send({ embeds: [abilityHelpers.createEmbed(ability)] });
+    user.send({ embeds: [generateAbilityEmbed(ability)] });
   }
 }
 
-module.exports = { createGame, FAKE_USER_ID };
+module.exports = { createGame };

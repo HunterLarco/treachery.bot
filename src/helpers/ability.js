@@ -3,29 +3,6 @@ const shuffleArray = require('shuffle-array');
 
 const { IdentityDataSource } = require('../data/MTGTreacheryDataSource.js');
 
-function createEmbed(ability, options) {
-  const { name } = options || {};
-
-  return {
-    title:
-      (name ? `${name} is` : 'You are') +
-      { Leader: ' the ', Assassin: ' an ', Traitor: ' a ', Guardian: ' a ' }[
-        ability.types.subtype
-      ] +
-      `${ability.types.subtype}: ${ability.name}!`,
-    description: `[View on mtgtreachery](${ability.uri})`,
-    image: {
-      url: ability.image,
-    },
-    fields: [
-      {
-        name: 'Description',
-        value: ability.text.replace(/\|/g, '\n'),
-      },
-    ],
-  };
-}
-
 function distribution(players) {
   /*
   if (players < 4 || players > 8) {
@@ -87,7 +64,6 @@ async function* assign(userIds, { notLeader }) {
 }
 
 module.exports = {
-  createEmbed,
   distribution,
   assign,
 };

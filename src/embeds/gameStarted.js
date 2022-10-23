@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 const abilityHelpers = require('../helpers/ability.js');
+const { FAKE_USER_ID } = require('../data/fakeUserId.js');
 
 function generateDistributionText(numPlayers) {
   const counts = abilityHelpers.distribution(numPlayers);
@@ -11,6 +12,12 @@ function generateDistributionText(numPlayers) {
     `${counts.assassin} assassin` + (counts.assassin > 1 ? 's' : ''),
     `${counts.guardian} guardian` + (counts.guardian > 1 ? 's' : ''),
   ].join('\n');
+}
+
+function generatePlayerList(playerIds) {
+  return playerIds
+    .map((id) => (id == FAKE_USER_ID ? `{Fake User}` : `<@${id}>`))
+    .join('\n');
 }
 
 function generateGameStartedEmbed(actorId, playerIds) {
@@ -24,7 +31,7 @@ function generateGameStartedEmbed(actorId, playerIds) {
   if (playerIds.length) {
     embed.addFields({
       name: 'Ready Players',
-      value: playerIds.map((id) => `<@${id}>`).join('\n'),
+      value: generatePlayerList(playerIds),
       inline: true,
     });
   }
