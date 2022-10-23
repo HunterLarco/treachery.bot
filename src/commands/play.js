@@ -273,11 +273,15 @@ class GameCreationManager {
           new ButtonBuilder()
             .setCustomId('join')
             .setLabel('Join')
-            .setStyle(ButtonStyle.Primary),
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(this.readyUserIds_.size > 8),
           new ButtonBuilder()
             .setCustomId('start')
             .setLabel('Start')
-            .setStyle(ButtonStyle.Success),
+            .setStyle(ButtonStyle.Success)
+            .setDisabled(
+              this.readyUserIds_.size < 4 || this.readyUserIds_.size > 8
+            ),
           new ButtonBuilder()
             .setCustomId('cancel')
             .setLabel('Cancel')
