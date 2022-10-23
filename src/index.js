@@ -77,7 +77,6 @@ async function configureHealthCheck(environment) {
 
 async function main() {
   const environment = await environmentHelpers.create();
-  console.log(environment.config);
   await publishGuildCommands(environment);
   await configureHealthCheck(environment);
   await configureDiscordClient(environment);
