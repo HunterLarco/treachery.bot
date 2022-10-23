@@ -2,7 +2,6 @@ const dynamoose = require('dynamoose');
 const { v4: uuidv4 } = require('uuid');
 
 const abilityHelpers = require('./ability.js');
-const userHelpers = require('./users.js');
 const { FAKE_USER_ID } = require('../data/fakeUserId.js');
 
 async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
