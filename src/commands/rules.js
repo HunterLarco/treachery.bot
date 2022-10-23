@@ -1,8 +1,8 @@
 module.exports = {
   name: 'rules',
   description: 'Describes the rules of treachery.',
-  execute(environment, interaction) {
-    interaction.reply({
+  async execute(environment, interaction) {
+    await interaction.reply({
       embeds: [
         {
           title: 'Treachery Rules',

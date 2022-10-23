@@ -1,8 +1,8 @@
 module.exports = {
   name: 'help',
   description: 'Shows you this message!',
-  execute(environment, interaction) {
-    interaction.reply({
+  async execute(environment, interaction) {
+    await interaction.reply({
       embeds: [
         {
           title: 'Treachery Help',
