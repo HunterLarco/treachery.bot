@@ -28,10 +28,10 @@ Local development requires a few environment variables to configure the bot. See
 [environment.js](./src/helpers/environment.js) for more details.
 
 ```sh
-export BOT_PREFIX = '...'
-export BOT_TOKEN  = '...'
-export AWS_REGION = '...'
-export DEBUG      = true
+export BOT_TOKEN     = '...'
+export BOT_CLIENT_ID = '...'
+export AWS_REGION    = '...'
+export DEBUG         = true
 
 npm start
 ```
