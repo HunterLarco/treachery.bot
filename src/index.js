@@ -31,10 +31,7 @@ async function configureDiscordClient(environment) {
     }
 
     const command = commands.find(
-      (command) =>
-        command.name == interaction.commandName ||
-        (command.alias &&
-          command.alias.some((alias) => alias == interaction.commandName))
+      (command) => command.name == interaction.commandName
     );
 
     if (!command) {
@@ -48,14 +45,6 @@ async function configureDiscordClient(environment) {
       await command.execute(environment, interaction);
     } catch (error) {
       console.log('Failed to run command with error:', error);
-      await interaction.reply({
-        embeds: [
-          {
-            title: 'Failed To Run Command',
-            description: error.toString(),
-          },
-        ],
-      });
     }
   });
 
