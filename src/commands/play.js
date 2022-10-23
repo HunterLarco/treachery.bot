@@ -10,38 +10,8 @@ const abilityHelpers = require('../helpers/ability.js');
 const {
   generateGameSetupEmbed,
   generateCanceledGameEmbed,
+  generateGameStartedEmbed,
 } = require('../embeds/gameSetup.js');
-
-const Emojis = {
-  ThumbsUp: '👍',
-  Rocket: '🚀',
-  Stop: '🛑',
-  NotLeader: '🙅',
-};
-
-function generateStartingMessage(readyUserIds) {
-  return {
-    embeds: [
-      {
-        title: 'Treachery Game Starting!',
-        description: `All of the below players will be privately messaged a role.`,
-        fields: [
-          {
-            name: 'Players',
-            value: [...readyUserIds].map((id) => `<@${id}>`).join('\n'),
-          },
-          {
-            name: 'Distribution',
-            value:
-              'In this game there is ' +
-              abilityHelpers.distributionText(readyUserIds.size + 3),
-          },
-        ],
-      },
-    ],
-    components: [],
-  };
-}
 
 function generateJoinedMessage(canBeLeader) {
   return {
@@ -90,9 +60,9 @@ class GameCreationManager {
     }
 
     const message = await interaction.reply(this.generateGameSetupMessage());
-
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
+      idle: 300000,
     });
     collector.on('collect', (i) => this.buttonTrampoline(i));
 
@@ -110,13 +80,15 @@ class GameCreationManager {
 
     this.readyUserIds_.add(interaction.user.id);
 
-    const [_, message] = await Promise.all([
+    await Promise.all([
       this.ui_.setup.interaction.editReply(this.generateGameSetupMessage()),
       interaction.reply(generateJoinedMessage(true)),
     ]);
 
+    const message = await interaction.fetchReply();
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
+      idle: 300000,
     });
     collector.on('collect', (i) => this.buttonTrampoline(i));
 
@@ -182,7 +154,16 @@ class GameCreationManager {
 
     /// Update all embeds.
 
-    const promises = [interaction.update(this.generateGameSetupMessage())];
+    const promises = [
+      interaction.update({
+        embeds: [
+          generateGameStartedEmbed(interaction.user.id, [
+            ...this.readyUserIds_,
+          ]),
+        ],
+        components: [],
+      }),
+    ];
     for (const { interaction: joinInteraction } of this.ui_.join.values()) {
       promises.push(
         joinInteraction.editReply({

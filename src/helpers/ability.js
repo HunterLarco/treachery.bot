@@ -27,9 +27,11 @@ function createEmbed(ability, options) {
 }
 
 function distribution(players) {
+  /*
   if (players < 4 || players > 8) {
     throw 'Treachery requires 4-8 players';
   }
+  */
 
   const counts = {
     leader: 1,
@@ -53,28 +55,6 @@ function distribution(players) {
   }
 
   return counts;
-}
-
-function distributionText(players) {
-  const counts = distribution(players);
-
-  let text = '1 leader, ';
-
-  if (counts.traitor == 1) {
-    text += '1 traitor, ';
-  } else {
-    text += `${counts.traitor} traitors, `;
-  }
-
-  text += `${counts.assassin} assassins, and `;
-
-  if (counts.guardian == 1) {
-    text += '1 guardian, ';
-  } else {
-    text += `${counts.guardian} guardians, `;
-  }
-
-  return text;
 }
 
 async function* assign(userIds, { notLeader }) {
@@ -109,6 +89,5 @@ async function* assign(userIds, { notLeader }) {
 module.exports = {
   createEmbed,
   distribution,
-  distributionText,
   assign,
 };
