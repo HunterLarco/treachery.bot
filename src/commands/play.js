@@ -190,7 +190,7 @@ class GameCreationManager {
         joinInteraction.user.send({
           embeds: [
             generateAbilityEmbed(
-              abilities.find(({ userId }) => (userId = joinInteraction.user.id))
+              abilities.find(({ userId }) => userId == joinInteraction.user.id)
                 .ability
             ),
           ],
