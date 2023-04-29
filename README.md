@@ -27,14 +27,16 @@ All dependencies can be installed via `npm install`.
 Local development requires a few environment variables to configure the bot. See
 [environment.js](./src/helpers/environment.js) for more details.
 
+.env
+
 ```sh
-export BOT_TOKEN     = '...'
-export BOT_CLIENT_ID = '...'
-export AWS_REGION    = '...'
-export DEBUG         = true
+BOT_TOKEN='...'
+BOT_CLIENT_ID='...'
+AWS_REGION='...'
+DEBUG=true
+```
 
 npm start
-```
 
 #### Code Formatting
 

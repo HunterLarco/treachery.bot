@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const dotenv = require('dotenv');
 
 const environmentHelpers = require('./helpers/environment.js');
 
@@ -76,6 +77,12 @@ async function configureHealthCheck(environment) {
 }
 
 async function main() {
+  // Load environment variables from .env (primarily used during local
+  // development so that we can use a single file to consistently apply
+  // environment variables). See README.md for more details on required
+  // environment variables.
+  dotenv.config();
+
   const environment = await environmentHelpers.create();
   await publishGuildCommands(environment);
   await configureHealthCheck(environment);
