@@ -61,11 +61,13 @@ module.exports = {
   //
   // See https://rollupjs.org/troubleshooting/#warning-treating-module-as-external-dependency
   external: [
+    'ajv',
     'discord.js',
     'dotenv',
     'dynamoose',
     'express',
     'fast-glob',
+    'node-fetch',
     'path',
   ],
 

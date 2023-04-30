@@ -2,6 +2,7 @@ import * as Discord from 'discord.js';
 import * as dotenv from 'dotenv';
 
 import * as environmentHelpers from '@/helpers/environment';
+import { createServerContext } from '@/ServerContext';
 
 async function publishGuildCommands(environment: any) {
   const { discord, commands, config } = environment;
@@ -89,6 +90,9 @@ async function main() {
   // environment variables). See README.md for more details on required
   // environment variables.
   dotenv.config();
+
+  const serverContext = createServerContext();
+  console.log(await serverContext.data.treacheryCards.value);
 
   const environment = await environmentHelpers.create();
   await publishGuildCommands(environment);
