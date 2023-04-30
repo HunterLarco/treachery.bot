@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
-import * as cachedPromise from '@/lib/CachedPromise';
-import * as cachePolicies from '@/lib/CachePolicies';
+import * as cache from '@/lib/cache';
+import * as cachePolicy from '@/lib/cache/policy';
 
 const kDuration_Day = 24 * 60 * 60 * 1000;
 
@@ -24,10 +24,10 @@ async function fetchIdentities() {
   };
 }
 
-export const IdentityDataSource = new cachedPromise.CachedPromise(
+export const IdentityDataSource = new cache.CachedGetter(
   () => fetchIdentities(),
-  cachePolicies.anyOf([
-    cachePolicies.expiry(kDuration_Day),
-    cachePolicies.retryRejections(),
+  cachePolicy.anyOf([
+    cachePolicy.expiry(kDuration_Day),
+    cachePolicy.retryRejections(),
   ])
 );
