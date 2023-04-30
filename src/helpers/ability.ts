@@ -58,7 +58,7 @@ export async function* assign<T>(
   const [leader] = pickRandom(canBeLeader);
   const everyoneElse = userIds.filter((userId) => userId !== leader);
 
-  const identities = await IdentityDataSource.value.promise;
+  const identities = await IdentityDataSource.value;
 
   yield {
     userId: leader,

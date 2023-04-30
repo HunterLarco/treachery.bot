@@ -6,6 +6,8 @@ export type CacheState<T> = {
 };
 
 export type CachePolicy<T> = {
+  onRefresh?: (newState: CacheState<T>, oldState: null | CacheState<T>) => void;
+
   shouldRefresh: (state: CacheState<T>) => boolean;
 };
 
@@ -29,10 +31,16 @@ export class CachedPromise<T> {
   }
 
   refresh(): T {
+    const oldState = this.#state;
+
     this.#state = {
       value: this.#factory(),
       computedAt: new Date(),
     };
+
+    if (this.#policy.onRefresh) {
+      this.#policy.onRefresh(this.#state, oldState);
+    }
 
     return this.#state.value;
   }
