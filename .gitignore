@@ -1,4 +1,5 @@
 .env
+dist/
 
 # Mac OS
 .DS_Store

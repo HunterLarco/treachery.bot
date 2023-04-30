@@ -1,11 +1,11 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 const kDuration_Day = 24 * 60 * 60 * 1000;
 
 async function fetchIdentities() {
   const { cards } = await fetch(
     'https://mtgtreachery.net/rules/oracle/treachery-cards.json'
-  ).then((response) => response.json());
+  ).then((response) => response.json() as Promise<{ cards: Array<any> }>);
 
   for (const card of cards) {
     card.image = encodeURI(
@@ -21,14 +21,17 @@ async function fetchIdentities() {
   };
 }
 
-class IdentityDataSource {
+class IdentityDataSourceImpl {
+  _lastFetch: null | number;
+  _identities: null | any;
+
   constructor() {
     this._lastFetch = null;
     this._identities = null;
   }
 
   async getIdentities() {
-    if (!this._identities) {
+    if (this._lastFetch == null) {
       this._identities = await fetchIdentities();
       this._lastFetch = Date.now();
     } else if (Date.now() - this._lastFetch > kDuration_Day) {
@@ -44,6 +47,4 @@ class IdentityDataSource {
   }
 }
 
-module.exports = {
-  IdentityDataSource: new IdentityDataSource(),
-};
+export const IdentityDataSource = new IdentityDataSourceImpl();

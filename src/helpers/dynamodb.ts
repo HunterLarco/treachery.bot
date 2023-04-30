@@ -1,13 +1,13 @@
-const { model, Schema } = require('dynamoose');
+import * as dynamoose from 'dynamoose';
 
-const UserSchema = new Schema({
+const UserSchema = new dynamoose.Schema({
   userId: String,
   currentGame: String,
 });
 
-const AbilitySchema = new Schema({
+const AbilitySchema = new dynamoose.Schema({
   name: String,
-  types: new Schema({
+  types: new dynamoose.Schema({
     supertype: String,
     subtype: String,
   }),
@@ -16,12 +16,12 @@ const AbilitySchema = new Schema({
   text: String,
 });
 
-const PlayerSchema = new Schema({
+const PlayerSchema = new dynamoose.Schema({
   userId: String,
   ability: AbilitySchema,
 });
 
-const GameSchema = new Schema({
+const GameSchema = new dynamoose.Schema({
   key: String,
   startTime: Date,
   players: {
@@ -36,7 +36,6 @@ const GameSchema = new Schema({
   expiration: Number,
 });
 
-module.exports = {
-  Users: model('treachery-bot-users', UserSchema),
-  Games: model('treachery-bot-games', GameSchema),
-};
+export const Users = dynamoose.model('treachery-bot-users', UserSchema);
+
+export const Games = dynamoose.model('treachery-bot-games', GameSchema);

@@ -1,10 +1,19 @@
-const dynamoose = require('dynamoose');
-const { v4: uuidv4 } = require('uuid');
+import * as dynamoose from 'dynamoose';
+import * as uuid from 'uuid';
 
-const abilityHelpers = require('./ability.js');
-const { FAKE_USER_ID } = require('../data/fakeUserId.js');
+import * as abilityHelpers from '@/helpers/ability';
+import { FAKE_USER_ID } from '@/data/fakeUserId';
 
-async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
+export async function createGame(
+  environment: any,
+  {
+    playerIds,
+    notLeaderPlayerIds,
+  }: {
+    playerIds: Array<string | typeof FAKE_USER_ID>;
+    notLeaderPlayerIds: Set<string | typeof FAKE_USER_ID>;
+  }
+) {
   if (playerIds.length < 4 || playerIds.length > 8) {
     throw 'Treachery requires 4-8 players.';
   } else if (playerIds.length == notLeaderPlayerIds.size) {
@@ -14,8 +23,8 @@ async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
   /// Create the `Game` database item.
 
   const game = {
-    key: uuidv4(),
-    players: [],
+    key: uuid.v4(),
+    players: [] as Array<any>,
     startTime: new Date(),
     // Automatically cleanup games older than 30 days.
     expiration: Math.round(Date.now() / 1000) + 30 * 24 * 60 * 60,
@@ -27,7 +36,7 @@ async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
   })) {
     players.push({ userId, ability });
 
-    if (userId == FAKE_USER_ID) {
+    if (userId === FAKE_USER_ID) {
       continue;
     }
 
@@ -60,5 +69,3 @@ async function createGame(environment, { playerIds, notLeaderPlayerIds }) {
     abilities: players,
   };
 }
-
-module.exports = { createGame };

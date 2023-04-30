@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "lib": ["es6"],
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "rootDir": "src",
+
+    // Do not emit compiler output files like JavaScript source code,
+    // source-maps or declarations. This makes room for another tool like Babel,
+    // or swc to handle converting the TypeScript file to a file which can
+    // run inside a JavaScript environment.
+    "noEmit": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noErrorTruncation": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "strictNullChecks": true,
+    "target": "es6"
+  },
+  "include": ["**/*.ts", "src"],
+  "exclude": ["node_modules"]
+}

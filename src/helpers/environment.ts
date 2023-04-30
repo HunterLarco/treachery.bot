@@ -1,11 +1,11 @@
-const Discord = require('discord.js');
-const express = require('express');
-const path = require('path');
+import * as discord from 'discord.js';
+import * as express from 'express';
+import * as path from 'path';
 
-const commandHelpers = require('./commands.js');
-const dynamoClient = require('./dynamodb.js');
+import * as commandHelpers from '@/helpers/commands';
+import * as dynamoClient from '@/helpers/dynamodb';
 
-async function create() {
+export async function create() {
   const config = {
     healthcheck_port: process.env.HEALTHCHECK_PORT || 3000,
     bot_token: process.env.BOT_TOKEN,
@@ -21,13 +21,13 @@ async function create() {
     config,
 
     discord: {
-      client: new Discord.Client({
-        intents: [Discord.GatewayIntentBits.Guilds],
+      client: new discord.Client({
+        intents: [discord.GatewayIntentBits.Guilds],
       }),
-      rest: new Discord.REST({ version: '10' }).setToken(config.bot_token),
+      rest: new discord.REST({ version: '10' }).setToken(config.bot_token),
     },
 
-    server: express(),
+    server: express.default(),
 
     db: dynamoClient,
 
@@ -43,7 +43,3 @@ async function create() {
     ],
   };
 }
-
-module.exports = {
-  create,
-};

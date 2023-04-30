@@ -1,12 +1,12 @@
-const Discord = require('discord.js');
-const dotenv = require('dotenv');
+import * as Discord from 'discord.js';
+import * as dotenv from 'dotenv';
 
-const environmentHelpers = require('./helpers/environment.js');
+import * as environmentHelpers from '@/helpers/environment';
 
-async function publishGuildCommands(environment) {
+async function publishGuildCommands(environment: any) {
   const { discord, commands, config } = environment;
 
-  const commandsJson = commands.map((command) =>
+  const commandsJson = commands.map((command: any) =>
     new Discord.SlashCommandBuilder()
       .setName(command.name)
       .setDescription(command.description)
@@ -19,35 +19,38 @@ async function publishGuildCommands(environment) {
   );
 }
 
-async function configureDiscordClient(environment) {
+async function configureDiscordClient(environment: any) {
   const { discord, commands } = environment;
 
   for (const command of commands) {
     console.log(`Loaded command '${command.name}'`);
   }
 
-  discord.client.on(Discord.Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-      return;
-    }
+  discord.client.on(
+    Discord.Events.InteractionCreate,
+    async (interaction: any) => {
+      if (!interaction.isChatInputCommand()) {
+        return;
+      }
 
-    const command = commands.find(
-      (command) => command.name == interaction.commandName
-    );
-
-    if (!command) {
-      console.error(
-        `No command matching ${interaction.commandName} was found.`
+      const command = commands.find(
+        (command: any) => command.name == interaction.commandName
       );
-      return;
-    }
 
-    try {
-      await command.execute(environment, interaction);
-    } catch (error) {
-      console.log('Failed to run command with error:', error);
+      if (!command) {
+        console.error(
+          `No command matching ${interaction.commandName} was found.`
+        );
+        return;
+      }
+
+      try {
+        await command.execute(environment, interaction);
+      } catch (error) {
+        console.log('Failed to run command with error:', error);
+      }
     }
-  });
+  );
 
   discord.client.once(Discord.Events.ClientReady, () => {
     discord.client.user.setActivity('Treachery', {
@@ -57,14 +60,18 @@ async function configureDiscordClient(environment) {
   });
 }
 
-async function configureHealthCheck(environment) {
-  return new Promise((resolve, reject) => {
-    environment.server.get('/healthz', (request, response) => {
+async function configureHealthCheck(environment: any) {
+  return new Promise<void>((resolve, reject) => {
+    environment.server.get('/healthz', (request: any, response: any) => {
       if (environment.discord.client.readyTimestamp != null) {
         response.send('ok');
       } else {
         response.status(503).send('not ready');
       }
+    });
+
+    environment.server.get('/livez', (_request: any, response: any) => {
+      response.send('ok');
     });
 
     environment.server.listen(environment.config.healthcheck_port, () => {
