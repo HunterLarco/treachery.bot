@@ -6,7 +6,7 @@ export type CachePolicy<T> = {
   shouldRefresh: (state: T) => boolean;
 };
 
-export function anyOf<T>(policies: Array<CachePolicy<T>>): CachePolicy<T> {
+export function anyOf<T>(...policies: Array<CachePolicy<T>>): CachePolicy<T> {
   return {
     onRefresh(newState, oldState) {
       for (const policy of policies) {

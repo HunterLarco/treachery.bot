@@ -14,7 +14,7 @@ export type TreacheryIdentities = {
   [key in TreacheryIdentityType]: Array<treacheryCard.TreacheryCard>;
 };
 
-export class MtgTreacheryClient {
+export class Client {
   async getIdentities(): Promise<TreacheryIdentities> {
     const { cards } = await fetch(
       'https://mtgtreachery.net/rules/oracle/treachery-cards.json'

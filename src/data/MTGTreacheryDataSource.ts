@@ -26,8 +26,8 @@ async function fetchIdentities() {
 
 export const IdentityDataSource = new cache.CachedGetter(
   () => fetchIdentities(),
-  cachePolicy.anyOf([
+  cachePolicy.anyOf(
     cachePolicy.expiry(kDuration_Day),
-    cachePolicy.retryRejections(),
-  ])
+    cachePolicy.retryRejections()
+  )
 );
