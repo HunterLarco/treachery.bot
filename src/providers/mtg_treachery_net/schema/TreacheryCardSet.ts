@@ -18,6 +18,7 @@ export const TREACHERY_CARD_SET_SCHEMA: ajv.JSONSchemaType<TreacheryCardSet> = {
     },
   },
   required: ['cards'],
+  additionalProperties: true,
 };
 
 export const getValidator: singleton.Getter<ajv.ValidateFunction<

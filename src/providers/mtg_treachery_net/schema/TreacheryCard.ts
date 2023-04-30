@@ -4,7 +4,7 @@ import * as ajvProvider from '@/providers/ajv';
 import * as singleton from '@/lib/singleton';
 
 export type TreacheryCard = {
-  id: string;
+  id: number;
   name: string;
   uri: string;
   types: {
@@ -19,7 +19,7 @@ export type TreacheryCard = {
 export const TREACHERY_CARD_SCHEMA: ajv.JSONSchemaType<TreacheryCard> = {
   type: 'object',
   properties: {
-    id: { type: 'string' },
+    id: { type: 'number' },
     name: { type: 'string' },
     uri: { type: 'string' },
     types: {
@@ -38,6 +38,7 @@ export const TREACHERY_CARD_SCHEMA: ajv.JSONSchemaType<TreacheryCard> = {
     },
   },
   required: ['id', 'name', 'uri', 'types', 'text', 'flavor', 'rulings'],
+  additionalProperties: true,
 };
 
 export const getValidator: singleton.Getter<ajv.ValidateFunction<
