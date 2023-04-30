@@ -1,5 +1,9 @@
 import fetch from 'node-fetch';
 
+import * as cachedPromise from '@/lib/CachedPromise';
+import * as augmentedPromise from '@/lib/AugmentedPromise';
+import * as cachePolicies from '@/lib/CachePolicies';
+
 const kDuration_Day = 24 * 60 * 60 * 1000;
 
 async function fetchIdentities() {
@@ -21,30 +25,10 @@ async function fetchIdentities() {
   };
 }
 
-class IdentityDataSourceImpl {
-  _lastFetch: null | number;
-  _identities: null | any;
-
-  constructor() {
-    this._lastFetch = null;
-    this._identities = null;
-  }
-
-  async getIdentities() {
-    if (this._lastFetch == null) {
-      this._identities = await fetchIdentities();
-      this._lastFetch = Date.now();
-    } else if (Date.now() - this._lastFetch > kDuration_Day) {
-      try {
-        this._identities = await fetchIdentities();
-        this._lastFetch = Date.now();
-      } catch (error) {
-        console.error('Failed to refresh data source with error:', error);
-      }
-    }
-
-    return this._identities;
-  }
-}
-
-export const IdentityDataSource = new IdentityDataSourceImpl();
+export const IdentityDataSource = new cachedPromise.CachedPromise(
+  () => new augmentedPromise.AugmentedPromise(fetchIdentities()),
+  cachePolicies.anyOf([
+    cachePolicies.expiry(kDuration_Day),
+    cachePolicies.retryRejections(),
+  ])
+);
