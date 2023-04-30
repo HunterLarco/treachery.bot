@@ -1,10 +1,7 @@
 FROM node:16.9.0
 ENV NODE_ENV=production
 
-ADD src /bot
-COPY package.json /bot
-COPY package-lock.json /bot
-
+ADD . /bot
 WORKDIR /bot
 
 RUN npm install --production
