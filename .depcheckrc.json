@@ -1,0 +1,4 @@
+{
+  "ignores": ["pre-commit", "tslib", "typescript"],
+  "specials": ["bin", "prettier"]
+}

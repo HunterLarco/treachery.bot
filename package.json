@@ -7,9 +7,10 @@
     "start": "NODE_ENV=development rollup -c --watch",
     "build": "NODE_ENV=production rollup -c",
     "package": "docker build -t treachery-bot:latest dist",
-    "lint": "prettier . --check",
-    "lint:fix": "prettier . --write",
-    "start": "node src/index.js",
+    "lint": "concurrently npm:lint:*",
+    "lint:prettier": "prettier . --check",
+    "lint:depcheck": "depcheck",
+    "format": "prettier . --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": {
@@ -43,6 +44,8 @@
     "@types/express": "4.17.17",
     "@types/shuffle-array": "1.0.2",
     "@types/uuid": "9.0.1",
+    "concurrently": "7.6.0",
+    "depcheck": "1.4.3",
     "pre-commit": "1.2.2",
     "prettier": "2.1.2",
     "rollup": "3.3.0",
