@@ -12,6 +12,7 @@ features, you agree to these Terms.
 ## 2. Description of Service
 
 The Bot provides the following functionality:
+
 - Matchmaking for Treachery games within Discord servers
 - Private distribution of roles via direct messages
 - In-game commands (such as `/unveil`) to manage role reveals and game state
@@ -22,6 +23,7 @@ sponsored by Wizards of the Coast, Hasbro, or Discord Inc.
 ## 3. Eligibility
 
 By using the Bot, you represent that:
+
 - You are at least 13 years of age (or the minimum age required by Discord in your jurisdiction)
 - You have the authority to add the Bot to any server where you install it
 - Your use complies with Discord's [Terms of Service](https://discord.com/terms) and [Community Guidelines](https://discord.com/guidelines)
@@ -29,6 +31,7 @@ By using the Bot, you represent that:
 ## 4. Acceptable Use
 
 You agree not to:
+
 - Use the Bot for any unlawful purpose
 - Use the Bot to harass, spam, or abuse other users
 - Deliberately overload or disrupt the Bot's services
@@ -36,6 +39,7 @@ You agree not to:
 ## 5. Data Collection and Privacy
 
 The Bot may collect and store the following information to function:
+
 - Discord User IDs and Server IDs
 - Game session data (players, assigned roles, game state)
 
@@ -47,6 +51,7 @@ parties, except as required by law. For more details, see our
 
 THE BOT IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.
 THE DEVELOPER DOES NOT GUARANTEE:
+
 - Uninterrupted or error-free operation
 - Compatibility with all servers or configurations
 - Availability at any specific time
@@ -64,6 +69,7 @@ from your use of the Bot.
 ## 8. Modifications to the Service and Terms
 
 The developer reserves the right to:
+
 - Modify, suspend, or discontinue the Bot at any time without notice
 - Update these Terms at any time; continued use after changes constitutes acceptance
 
