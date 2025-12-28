@@ -6,10 +6,10 @@ Treachery, you agree to the terms of this Privacy Policy.
 
 Information We Collect
 
-We collect information that you provide to us through your use of the bot, such
-as your Discord user ID and username, server and channel information, and
-message content. We may also collect usage data, such as the frequency and
-duration of your use of the bot.
+We collect information necessary to operate the bot, including your Discord user
+ID, server ID, and game session data (such as assigned roles and game state). We
+may also collect usage data, such as the frequency and duration of your use of
+the bot.
 
 How We Use Your Information
 
@@ -45,7 +45,10 @@ changes to this policy indicates your acceptance of the revised policy.
 Contact Us
 
 If you have any questions or concerns about this Privacy Policy, please contact
-us at hunter@larcolabs.com
+us:
+
+- **GitHub:** [hunterlarco](https://github.com/hunterlarco)
+- **Discord:** [MTG Treachery Server](https://discord.gg/tBUDTyx)
 
 Effective Date
 

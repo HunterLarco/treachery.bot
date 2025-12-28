@@ -35,13 +35,13 @@ You agree not to:
 
 ## 5. Data Collection and Privacy
 
-The Bot may collect and temporarily store the following information to function:
+The Bot may collect and store the following information to function:
 - Discord User IDs and Server IDs
 - Game session data (players, assigned roles, game state)
 
 This data is used solely to operate the Bot and is not sold or shared with third
-parties. Game session data is typically temporary and deleted after games
-conclude. For questions about data handling, please contact the developer.
+parties, except as required by law. For more details, see our
+[Privacy Policy](PRIVACY.md).
 
 ## 6. Disclaimers
 
