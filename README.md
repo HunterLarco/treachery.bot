@@ -8,7 +8,7 @@
 
 ## Using The Bot
 
-[Add the bot to your discord server][bot-install] and then use `~help`.
+[Add the bot to your discord server][bot-install] and then use `/help`.
 
 ## Contributing
 
